@@ -1,0 +1,10 @@
+# Local secrets and private overrides. The publishable key in js/config.js is public by design.
+.env
+.env.*
+!.env.example
+js/config.local.js
+
+# Local tooling and generated output
+node_modules/
+dist/
+.DS_Store
