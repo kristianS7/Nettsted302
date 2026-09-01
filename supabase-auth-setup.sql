@@ -1,15 +1,6 @@
--- IS-302 internship logbook schema
--- Run this whole file in the Supabase SQL Editor for a new project.
-
-create table if not exists public.internship_entries (
-  id uuid primary key default gen_random_uuid(),
-  student text not null check (student in ('Kristian', 'Hans Kristian', 'Kasper', 'Mats')),
-  content text not null check (char_length(btrim(content)) between 1 and 10000),
-  created_at timestamptz not null default now()
-);
-
-create index if not exists internship_entries_created_at_idx
-  on public.internship_entries (created_at desc);
+-- IS-302 internship logbook authentication setup
+-- Run this whole file in the Supabase SQL Editor.
+-- Existing rows in public.internship_entries are preserved.
 
 alter table public.internship_entries enable row level security;
 
@@ -37,4 +28,4 @@ create policy "Authenticated users can add internship entries"
     and student in ('Kristian', 'Hans Kristian', 'Kasper', 'Mats')
   );
 
--- No public update or delete policies are created, and those privileges are revoked.
+-- No update or delete policies are created, and those privileges are revoked.

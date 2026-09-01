@@ -4,11 +4,18 @@
   const STUDENTS = ["Kristian", "Hans Kristian", "Kasper", "Mats"];
   const form = document.getElementById("diary-form");
   const dialog = document.getElementById("entry-dialog");
+  const loginDialog = document.getElementById("login-dialog");
+  const loginForm = document.getElementById("login-form");
   const openButton = document.getElementById("open-entry");
+  const logoutButton = document.getElementById("logout-button");
   const closeButton = document.getElementById("close-entry");
+  const closeLoginButton = document.getElementById("close-login");
   const cancelButton = document.getElementById("cancel-entry");
+  const cancelLoginButton = document.getElementById("cancel-login");
   const submitButton = document.getElementById("submit-button");
   const formMessage = document.getElementById("form-message");
+  const loginSubmitButton = document.getElementById("login-submit");
+  const loginMessage = document.getElementById("login-message");
   const pageMessage = document.getElementById("page-message");
   const feedStatus = document.getElementById("feed-status");
   const entriesList = document.getElementById("entries-list");
@@ -16,9 +23,15 @@
   let entries = [];
   let selectedStudent = "all";
   let client = null;
+  let session = null;
+  let authReady = false;
 
   function setFormMessage(message) {
     formMessage.textContent = message;
+  }
+
+  function setLoginMessage(message) {
+    loginMessage.textContent = message;
   }
 
   function setPageMessage(message, type) {
@@ -59,6 +72,14 @@
     return {
       student: String(formData.get("student") || "").trim(),
       content: String(formData.get("content") || "").trim()
+    };
+  }
+
+  function getLoginFromForm() {
+    const formData = new FormData(loginForm);
+    return {
+      email: String(formData.get("email") || "").trim(),
+      password: String(formData.get("password") || "")
     };
   }
 
@@ -125,10 +146,30 @@
     }
   }
 
-  function openDialog() {
+  function updateAuthUI(nextSession) {
+    session = nextSession;
+    logoutButton.hidden = !session;
+    openButton.disabled = !authReady;
+  }
+
+  function openEntryDialog() {
     setFormMessage("");
     dialog.showModal();
     document.getElementById("student").focus();
+  }
+
+  function openLoginDialog() {
+    setLoginMessage("");
+    loginDialog.showModal();
+    document.getElementById("login-email").focus();
+  }
+
+  function openDialog() {
+    if (session) {
+      openEntryDialog();
+      return;
+    }
+    openLoginDialog();
   }
 
   function closeDialog() {
@@ -137,8 +178,58 @@
     setFormMessage("");
   }
 
+  function closeLoginDialog() {
+    loginDialog.close();
+    loginForm.reset();
+    setLoginMessage("");
+  }
+
+  async function handleLogin(event) {
+    event.preventDefault();
+    setLoginMessage("");
+    const credentials = getLoginFromForm();
+    if (!credentials.email || !credentials.email.includes("@") || !credentials.password) {
+      setLoginMessage("Enter your email and password.");
+      return;
+    }
+
+    loginSubmitButton.disabled = true;
+    loginSubmitButton.textContent = "Logging in...";
+    try {
+      const { error } = await client.auth.signInWithPassword(credentials);
+      if (error) throw error;
+      closeLoginDialog();
+      setPageMessage("Logged in.");
+      window.setTimeout(() => setPageMessage(""), 3000);
+    } catch (error) {
+      setLoginMessage(`Could not log in. ${error.message || "Check your details and try again."}`);
+    } finally {
+      loginSubmitButton.disabled = false;
+      loginSubmitButton.textContent = "Logg inn";
+    }
+  }
+
+  async function handleLogout() {
+    logoutButton.disabled = true;
+    try {
+      const { error } = await client.auth.signOut();
+      if (error) throw error;
+      setPageMessage("Logged out.");
+      window.setTimeout(() => setPageMessage(""), 3000);
+    } catch (error) {
+      setPageMessage(`Could not log out. ${error.message || "Please try again."}`, "error");
+    } finally {
+      logoutButton.disabled = false;
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
+    if (!session) {
+      closeDialog();
+      openLoginDialog();
+      return;
+    }
     setFormMessage("");
     const entry = getEntryFromForm();
     const validationMessage = validateEntry(entry);
@@ -175,13 +266,21 @@
   }
 
   function start() {
+    openButton.disabled = true;
     openButton.addEventListener("click", openDialog);
+    logoutButton.addEventListener("click", handleLogout);
     closeButton.addEventListener("click", closeDialog);
+    closeLoginButton.addEventListener("click", closeLoginDialog);
     cancelButton.addEventListener("click", closeDialog);
+    cancelLoginButton.addEventListener("click", closeLoginDialog);
     form.addEventListener("submit", handleSubmit);
+    loginForm.addEventListener("submit", handleLogin);
     filterButtons.forEach((button) => button.addEventListener("click", () => selectFilter(button)));
     dialog.addEventListener("click", (event) => {
       if (event.target === dialog) closeDialog();
+    });
+    loginDialog.addEventListener("click", (event) => {
+      if (event.target === loginDialog) closeLoginDialog();
     });
 
     if (!window.supabase || typeof window.supabase.createClient !== "function") {
@@ -196,6 +295,16 @@
     }
 
     client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    client.auth.onAuthStateChange((_event, nextSession) => updateAuthUI(nextSession));
+    client.auth.getSession().then(({ data, error }) => {
+      if (error) throw error;
+      updateAuthUI(data.session);
+      authReady = true;
+      updateAuthUI(session);
+    }).catch((error) => {
+      setPageMessage(`Authentication is unavailable. ${error.message || "Please try again later."}`, "error");
+      updateAuthUI(null);
+    });
     loadEntries();
   }
 

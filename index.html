@@ -16,10 +16,12 @@
         <a class="brand" href="./" aria-label="IS-302 home">IS-302</a>
         <p class="students">Kristian <span aria-hidden="true">·</span> Hans Kristian <span aria-hidden="true">·</span> Kasper <span aria-hidden="true">·</span> Mats</p>
       </div>
-      <button class="add-button" id="open-entry" type="button" aria-haspopup="dialog" aria-controls="entry-dialog">
+      <div class="header-actions">
+        <button class="logout-button" id="logout-button" type="button" hidden>Logg ut</button>
+        <button class="add-button" id="open-entry" type="button" aria-haspopup="dialog" aria-label="Create entry">
         <span aria-hidden="true">+</span>
-        <span class="visually-hidden">New entry</span>
-      </button>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -87,6 +89,30 @@
         <div class="dialog-actions">
           <button class="text-button" id="cancel-entry" type="button">Cancel</button>
           <button class="primary-button" id="submit-button" type="submit">Publish</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="entry-dialog login-dialog" id="login-dialog" aria-labelledby="login-heading">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <h2 id="login-heading">Logg inn</h2>
+        <button class="close-button" id="close-login" type="button" aria-label="Close dialog">&times;</button>
+      </div>
+      <form id="login-form" novalidate>
+        <div class="field-group">
+          <label for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" autocomplete="username" required>
+        </div>
+        <div class="field-group">
+          <label for="login-password">Password</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <p class="form-message" id="login-message" role="status" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button class="text-button" id="cancel-login" type="button">Cancel</button>
+          <button class="primary-button" id="login-submit" type="submit">Logg inn</button>
         </div>
       </form>
     </div>
