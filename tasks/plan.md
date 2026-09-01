@@ -38,3 +38,8 @@ Create a static GitHub Pages diary site backed by Supabase. Students can add ent
 
 ## Open Questions
 - None. The requested deployment model and access policy are explicit.
+
+## Entry Date Extension
+- Add `entry_date` as a separate calendar date from `created_at`.
+- Default the date picker to the local current date, while allowing past dates only.
+- Read and sort entries by `entry_date desc, created_at desc` without changing the Supabase client connection.

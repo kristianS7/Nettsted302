@@ -12,6 +12,7 @@
   const closeLoginButton = document.getElementById("close-login");
   const cancelButton = document.getElementById("cancel-entry");
   const cancelLoginButton = document.getElementById("cancel-login");
+  const entryDateInput = document.getElementById("entry-date");
   const submitButton = document.getElementById("submit-button");
   const formMessage = document.getElementById("form-message");
   const loginSubmitButton = document.getElementById("login-submit");
@@ -60,8 +61,27 @@
     return `${action} ${error && error.message ? error.message : "Please try again."}`;
   }
 
+  function getLocalDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function isValidEntryDate(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const [year, month, day] = value.split("-").map(Number);
+    const date = new Date(`${value}T00:00:00`);
+    return !Number.isNaN(date.getTime())
+      && date.getFullYear() === year
+      && date.getMonth() === month - 1
+      && date.getDate() === day;
+  }
+
   function validateEntry(entry) {
     if (!STUDENTS.includes(entry.student)) return "Select a student.";
+    if (!isValidEntryDate(entry.entry_date)) return "Select a valid date.";
+    if (entry.entry_date > getLocalDateString(new Date())) return "The entry date cannot be in the future.";
     if (!entry.content) return "Write something in the entry first.";
     if (entry.content.length > 10000) return "Keep the entry under 10,000 characters.";
     return "";
@@ -71,7 +91,8 @@
     const formData = new FormData(form);
     return {
       student: String(formData.get("student") || "").trim(),
-      content: String(formData.get("content") || "").trim()
+      content: String(formData.get("content") || "").trim(),
+      entry_date: String(formData.get("entry_date") || "").trim()
     };
   }
 
@@ -84,7 +105,9 @@
   }
 
   function formatDate(value) {
-    const date = new Date(value);
+    const date = /^\d{4}-\d{2}-\d{2}$/.test(value)
+      ? new Date(`${value}T00:00:00`)
+      : new Date(value);
     if (Number.isNaN(date.getTime())) return "Date unavailable";
     return new Intl.DateTimeFormat("en-GB", {
       day: "2-digit",
@@ -108,8 +131,8 @@
     const meta = document.createElement("div");
     meta.className = "entry-meta";
     addText(meta, "span", "entry-student", entry.student);
-    const date = addText(meta, "time", "entry-date", formatDate(entry.created_at));
-    date.dateTime = entry.created_at || "";
+    const date = addText(meta, "time", "entry-date", formatDate(entry.entry_date));
+    date.dateTime = entry.entry_date || "";
     article.append(meta);
     addText(article, "p", "entry-content", entry.content);
     return article;
@@ -133,7 +156,8 @@
     try {
       const { data, error } = await client
         .from("internship_entries")
-        .select("id, student, content, created_at")
+        .select("id, student, content, entry_date, created_at")
+        .order("entry_date", { ascending: false })
         .order("created_at", { ascending: false });
       if (error) throw error;
       entries = data || [];
@@ -154,6 +178,9 @@
 
   function openEntryDialog() {
     setFormMessage("");
+    const today = getLocalDateString(new Date());
+    entryDateInput.max = today;
+    entryDateInput.value = today;
     dialog.showModal();
     document.getElementById("student").focus();
   }

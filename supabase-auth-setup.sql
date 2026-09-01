@@ -7,7 +7,7 @@ alter table public.internship_entries enable row level security;
 grant usage on schema public to anon, authenticated;
 revoke all on table public.internship_entries from public, anon, authenticated;
 grant select on table public.internship_entries to anon, authenticated;
-grant insert (student, content)
+grant insert (student, content, entry_date)
   on table public.internship_entries to authenticated;
 
 drop policy if exists "Anyone can read internship entries" on public.internship_entries;
