@@ -199,6 +199,7 @@
       const { error } = await client.auth.signInWithPassword(credentials);
       if (error) throw error;
       closeLoginDialog();
+      openEntryDialog();
       setPageMessage("Logged in.");
       window.setTimeout(() => setPageMessage(""), 3000);
     } catch (error) {
