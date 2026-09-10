@@ -1,127 +1,402 @@
 <!doctype html>
-<html lang="en">
+<html lang="no">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Shared IS-302 internship logbook.">
-  <title>IS-302 | Internship Logbook</title>
+  <meta name="description" content="IS-302: Ukentlig praksislogg og prosjekter for Kristiansand kommune.">
+  <meta name="theme-color" content="#f6f5ef">
+  <title>IS-302 | Praksisloggbok</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main-content">Hopp til hovedinnhold</a>
 
+  <!-- Masthead -->
   <header class="site-header">
     <div class="header-inner">
-      <div class="identity">
-        <a class="brand" href="./" aria-label="IS-302 home">IS-302</a>
-        <p class="students">Kristian <span aria-hidden="true">·</span> Hans Kristian <span aria-hidden="true">·</span> Kasper <span aria-hidden="true">·</span> Mats</p>
+      <div class="brand-group">
+        <a class="brand-logo" href="./" aria-label="IS-302 Hjem">
+          IS-302<span aria-hidden="true">.</span>
+        </a>
+        <div class="brand-divider" aria-hidden="true"></div>
+        <div class="brand-details">
+          <span class="brand-subtitle">Praksis & digitalisering</span>
+          <p class="header-students">Kristian · Hans Kristian · Kasper · Mats</p>
+        </div>
       </div>
+
+      <!-- Section navigation -->
+      <nav class="main-nav" aria-label="Hovednavigasjon">
+        <button class="nav-link active" type="button" data-view="loggbok" aria-current="page" aria-controls="view-loggbok">
+          Loggbok
+        </button>
+        <button class="nav-link" type="button" data-view="hva-vi-gjor" aria-controls="view-hva-vi-gjor">
+          Prosjekter
+        </button>
+        <button class="nav-link" type="button" data-view="team" aria-controls="view-team">
+          Team
+        </button>
+      </nav>
+
+      <!-- Account and publishing -->
       <div class="header-actions">
-        <button class="logout-button" id="logout-button" type="button" hidden>Logg ut</button>
-        <button class="add-button" id="open-entry" type="button" aria-haspopup="dialog" aria-label="Create entry">
-        <span aria-hidden="true">+</span>
+        <span class="auth-status" id="auth-status" role="status">Sjekker innlogging…</span>
+        <button class="btn-subtle" id="header-login-btn" type="button" aria-haspopup="dialog" aria-controls="login-dialog">
+          Logg inn
+        </button>
+        <button class="btn-subtle" id="logout-button" type="button" hidden>
+          Logg ut
+        </button>
+        <button class="btn-add" id="open-entry" type="button" aria-haspopup="dialog" disabled>
+          <span aria-hidden="true">+</span> Nytt innlegg
         </button>
       </div>
     </div>
   </header>
 
-  <main id="main-content">
+  <!-- Live notifications -->
+  <div class="message-container">
     <div class="page-message" id="page-message" role="status" aria-live="polite"></div>
-    <div class="content-layout">
-      <section class="logbook" aria-labelledby="logbook-heading">
-        <div class="feed-header">
-          <h1 id="logbook-heading">Internship logbook</h1>
-          <nav class="student-filter" aria-label="Filter entries by student">
-            <button class="filter-link active" type="button" data-student="all" aria-pressed="true">All</button>
-            <button class="filter-link" type="button" data-student="Kristian" aria-pressed="false">Kristian</button>
-            <button class="filter-link" type="button" data-student="Hans Kristian" aria-pressed="false">Hans Kristian</button>
-            <button class="filter-link" type="button" data-student="Kasper" aria-pressed="false">Kasper</button>
-            <button class="filter-link" type="button" data-student="Mats" aria-pressed="false">Mats</button>
-          </nav>
+  </div>
+
+  <main id="main-content" tabindex="-1">
+    <noscript><p class="feed-status">Slå på JavaScript for å lese loggboken og logge inn.</p></noscript>
+
+    <!-- Project overview -->
+    <section class="view-panel" id="view-hva-vi-gjor" aria-labelledby="heading-hva-vi-gjor">
+
+      <div class="section-intro">
+        <span class="intro-badge"></span>
+        <h1 class="section-title" id="heading-hva-vi-gjor">Hva vi gjør</h1>
+        <p class="section-lead">
+          Vi er fire studenter i emnet IS-302 som bistår Kristiansand kommune med å utforske og utvikle digitale løsninger for eiendomsdata og fremtidsrettede arealplaner. Arbeidet vårt er delt inn i to hovedinitiativer.
+        </p>
+      </div>
+
+      <!-- Research projects -->
+      <div class="projects-grid">
+
+        <!-- PROSJEKT 1 -->
+        <article class="project-card">
+          <div class="project-card-header">
+            <span class="project-tag">Prosjekt 01 · Geodata</span>
+            <span class="project-assigned">Mats & Hans Kristian</span>
+          </div>
+          <h2 class="project-name">Digitalisering av oppmålingsprotokoller</h2>
+          <p class="project-body">
+            Kristiansand kommune har omfattende historiske arkiver med oppmålingsprotokoller og målebrev. Vi undersøker hvordan disse kan transkriberes ved hjelp av kunstig intelligens, indekseres strukturert og kobles direkte til gjeldende gårds- og bruksnummer i matrikkelen, slik at informasjonen blir enkel å gjenfinne for saksbehandlere og innbyggere.
+          </p>
+          <div class="project-meta-list">
+            <span class="meta-pill">Matrikkel & Gnr/Bnr</span>
+            <span class="meta-pill">AI-assistert OCR</span>
+            <span class="meta-pill">Excel & SQL</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-assigned">Fokus: <strong>Transkribering & indeksering</strong></span>
+            <button class="project-btn" type="button" data-jump-student="Mats">
+              Se ukentlige logger &rarr;
+            </button>
+          </div>
+        </article>
+
+        <!-- PROSJEKT 2 -->
+        <article class="project-card">
+          <div class="project-card-header">
+            <span class="project-tag">Prosjekt 02 · Arealplan</span>
+            <span class="project-assigned">Kristian & Kasper</span>
+          </div>
+          <h2 class="project-name">Drømmeplan</h2>
+          <p class="project-body">
+            Gjeldende reguleringsplaner er ofte bundet til statiske kart og ustrukturerte PDF-dokumenter. I Drømmeplan utforsker vi hvordan planbestemmelser kan gjøres semantisk maskinlesbare og strukturerte etter moderne planstandarder. Målet er å skape et enhetlig grunnlag som forenkler samhandling og muliggjør automatisert saksbehandling i fremtiden.
+          </p>
+          <div class="project-meta-list">
+            <span class="meta-pill">SOSI / NPAD</span>
+            <span class="meta-pill">Maskinlesbare bestemmelser</span>
+            <span class="meta-pill">Automatisert kontroll</span>
+          </div>
+          <div class="project-footer">
+            <span class="project-assigned">Fokus: <strong>Datamodellering & standarder</strong></span>
+            <button class="project-btn" type="button" data-jump-student="Kristian">
+              Se ukentlige logger &rarr;
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Project contributors -->
+      <div class="team-section">
+        <div class="team-header">
+          <h2 class="team-title">Teamet</h2>
+          <p class="team-subtitle">Studentene bak prosjektene og den ukentlige loggen.</p>
         </div>
 
-        <div class="feed-status loading" id="feed-status" role="status" aria-live="polite">
-          <span class="loader" aria-hidden="true"></span>
-          <span>Loading entries...</span>
+        <div class="team-grid">
+
+          <div class="team-card">
+            <div class="profile-placeholder" aria-hidden="true">KS</div>
+            <h3 class="profile-name">Kristian</h3>
+            <span class="profile-role">System & Backend</span>
+            <p class="profile-desc">Drømmeplan, databaser, Supabase og systemarkitektur.</p>
+            <button class="profile-filter-btn" type="button" data-jump-student="Kristian">
+              Se innlegg
+            </button>
+          </div>
+
+          <div class="team-card">
+            <div class="profile-placeholder" aria-hidden="true">HK</div>
+            <h3 class="profile-name">Hans Kristian</h3>
+            <span class="profile-role">Geodata & Matrikkel</span>
+            <p class="profile-desc">Oppmålingsprotokoller, matrikkeldata og SOSI-standarder.</p>
+            <button class="profile-filter-btn" type="button" data-jump-student="Hans Kristian">
+              Se innlegg
+            </button>
+          </div>
+
+          <div class="team-card">
+            <div class="profile-placeholder" aria-hidden="true">KP</div>
+            <h3 class="profile-name">Kasper</h3>
+            <span class="profile-role">Frontend & Design</span>
+            <p class="profile-desc">Drømmeplan, brukergrensesnitt og universell utforming.</p>
+            <button class="profile-filter-btn" type="button" data-jump-student="Kasper">
+              Se innlegg
+            </button>
+          </div>
+
+          <div class="team-card">
+            <div class="profile-placeholder" aria-hidden="true">MB</div>
+            <h3 class="profile-name">Mats</h3>
+            <span class="profile-role">AI & Dataprosessering</span>
+            <p class="profile-desc">Oppmålingsprotokoller, LLM-prompting og datavasking.</p>
+            <button class="profile-filter-btn" type="button" data-jump-student="Mats">
+              Se innlegg
+            </button>
+          </div>
+
         </div>
-        <div class="entries-list" id="entries-list"></div>
+      </div>
+
+    </section>
+
+
+    <!-- Shared journal: the default view -->
+    <section class="view-panel active" id="view-loggbok" aria-labelledby="heading-loggbok">
+
+      <div class="feed-header">
+        <div class="feed-title-block">
+          <span class="intro-badge">IS-302 · Praksis 2026</span>
+          <h1 class="feed-main-title" id="heading-loggbok" lang="en">Internship loggbok</h1>
+          <p class="feed-subtitle"> Her deler vi arbeidet, erfaringene og refleksjonene underveis.</p>
+        </div>
+        <div class="intro-meta"><span></span><span></span></div>
+      </div>
+
+      <div class="journal-layout">
+      <section class="journal-feed" aria-labelledby="journal-heading">
+      <div class="section-heading"><h2 id="journal-heading">Fra praksisen</h2><span>Nyeste innlegg først</span></div>
+
+      <!-- Editing status -->
+      <div class="edit-status-strip" id="edit-status-strip">
+        <span class="mode-badge" id="mode-badge">Lesemodus</span>
+        <span id="mode-text">Logg inn for å redigere datoer direkte på kortene.</span>
+        <button class="mode-toggle-link" id="toggle-edit-mode" type="button">
+          Aktiver redigering (test)
+        </button>
+      </div>
+
+      <!-- FILTERS & SEARCH -->
+      <div class="feed-toolbar">
+        <nav class="filter-group" aria-label="Filtrer etter student">
+          <button class="filter-btn active" type="button" data-student="all" aria-pressed="true" aria-controls="entries-list">
+            Alle <span class="count" id="cnt-all">0</span>
+          </button>
+          <button class="filter-btn" type="button" data-student="Kristian" aria-pressed="false" aria-controls="entries-list">
+            Kristian <span class="count" id="cnt-Kristian">0</span>
+          </button>
+          <button class="filter-btn" type="button" data-student="Hans Kristian" aria-pressed="false" aria-controls="entries-list">
+            Hans Kristian <span class="count" id="cnt-Hans-Kristian">0</span>
+          </button>
+          <button class="filter-btn" type="button" data-student="Kasper" aria-pressed="false" aria-controls="entries-list">
+            Kasper <span class="count" id="cnt-Kasper">0</span>
+          </button>
+          <button class="filter-btn" type="button" data-student="Mats" aria-pressed="false" aria-controls="entries-list">
+            Mats <span class="count" id="cnt-Mats">0</span>
+          </button>
+        </nav>
+
+        <div class="search-row">
+          <label for="feed-search">Søk</label>
+          <input class="search-field" id="feed-search" type="search" placeholder="Søk etter tekst, student eller dato…">
+        </div>
+      </div>
+
+      <!-- FEED STATUS -->
+      <div class="feed-status loading" id="feed-status" role="status" aria-live="polite">
+        <span class="feed-spinner" aria-hidden="true"></span>
+        <span>Laster innlegg...</span>
+      </div>
+
+      <!-- ENTRIES FEED -->
+      <p class="sr-only" id="results-summary" role="status" aria-live="polite"></p>
+      <div class="entries-container" id="entries-list" aria-busy="true"></div>
       </section>
 
-      <aside class="project-legends" aria-label="Projects">
-        <section class="project-note">
-          <h2>Digitalisering av oppmålingsprotokoller</h2>
+      <aside class="project-sidebar" aria-labelledby="sidebar-heading">
+        <div class="section-heading"><h2 id="sidebar-heading">Prosjektene</h2><span>01–02</span></div>
+        <article class="project-note">
+          <span class="project-tag">Prosjekt 01 · Geodata</span>
+          <h3>Digitalisering av oppmålingsprotokoller</h3>
           <p>Vi utforsker hvordan historiske oppmålingsprotokoller fra Kristiansand kan digitaliseres, transkriberes og knyttes til riktig eiendom, slik at informasjonen blir enklere å finne og bruke.</p>
-        </section>
-        <section class="project-note">
-          <h2>Drømmeplan</h2>
+          <div class="note-footer"><span>Mats · Hans Kristian</span><span>Transkribering & indeksering</span></div>
+        </article>
+        <article class="project-note">
+          <span class="project-tag">Prosjekt 02 · Arealplan</span>
+          <h3>Drømmeplan</h3>
           <p>Vi utforsker hvordan reguleringsplaner kan bli mer strukturerte, maskinlesbare og enklere å samarbeide om ved hjelp av moderne planstandarder og digitale verktøy.</p>
-        </section>
+          <div class="note-footer"><span>Kristian · Kasper</span><span>Datamodellering & standarder</span></div>
+        </article>
+        <button class="project-btn sidebar-link" type="button" data-view="hva-vi-gjor">Les mer om prosjektene <span aria-hidden="true">↗</span></button>
+        <p class="sidebar-caption">Et felles innblikk i hvordan vi utforsker digitale løsninger for kommunen.</p>
       </aside>
-    </div>
+      </div>
+
+    </section>
+
+
+    <!-- ====================================================================
+         VIEW 03: TEAM
+         ==================================================================== -->
+    <section class="view-panel" id="view-team" aria-labelledby="heading-team-view">
+      <div class="section-intro">
+        <span class="intro-badge">IS-302 · Studentene</span>
+        <h1 class="section-title" id="heading-team-view">Om teamet</h1>
+        <p class="section-lead">
+          Vi er fire IT-studenter som samarbeider med veileder Dagfinn og Kristiansand kommune gjennom hele semesteret.
+        </p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="profile-placeholder" aria-hidden="true">KS</div>
+          <h2 class="profile-name">Kristian</h2>
+          <span class="profile-role">System & Backend</span>
+          <p class="profile-desc">Fokusert på Drømmeplan, arkitektur, skytjenester og databaseoppsett.</p>
+          <button class="profile-filter-btn" type="button" data-jump-student="Kristian">Se logger</button>
+        </div>
+
+        <div class="team-card">
+          <div class="profile-placeholder" aria-hidden="true">HK</div>
+          <h2 class="profile-name">Hans Kristian</h2>
+          <span class="profile-role">Geodata & Matrikkel</span>
+          <p class="profile-desc">Fokusert på oppmålingsprotokoller, eiendomshistorikk og SOSI-standarder.</p>
+          <button class="profile-filter-btn" type="button" data-jump-student="Hans Kristian">Se logger</button>
+        </div>
+
+        <div class="team-card">
+          <div class="profile-placeholder" aria-hidden="true">KP</div>
+          <h2 class="profile-name">Kasper</h2>
+          <span class="profile-role">Frontend & Design</span>
+          <p class="profile-desc">Fokusert på Drømmeplan, nettside-design, brukerreiser og frontend.</p>
+          <button class="profile-filter-btn" type="button" data-jump-student="Kasper">Se logger</button>
+        </div>
+
+        <div class="team-card">
+          <div class="profile-placeholder" aria-hidden="true">MB</div>
+          <h2 class="profile-name">Mats</h2>
+          <span class="profile-role">AI & Dataprosessering</span>
+          <p class="profile-desc">Fokusert på oppmålingsprotokoller, prompting av LLM-modeller og tabellstrukturering.</p>
+          <button class="profile-filter-btn" type="button" data-jump-student="Mats">Se logger</button>
+        </div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Colophon -->
   <footer class="site-footer">
-    <span>IS-302 / Shared internship record</span>
+    <div class="footer-inner">
+      <span>IS-302 · Praksisprosjekt for Kristiansand kommune · 2026</span>
+      <span>Kristian · Hans Kristian · Kasper · Mats</span>
+    </div>
   </footer>
 
+  <!-- ====================================================================
+       MODAL 01: NYTT INNLEGG
+       ==================================================================== -->
   <dialog class="entry-dialog" id="entry-dialog" aria-labelledby="dialog-heading">
     <div class="dialog-inner">
       <div class="dialog-header">
-        <h2 id="dialog-heading">New entry</h2>
-        <button class="close-button" id="close-entry" type="button" aria-label="Close dialog">&times;</button>
+        <div><span class="intro-badge">IS-302 · Loggbok</span><h2 class="dialog-title" id="dialog-heading">Nytt innlegg</h2></div>
+        <button class="close-btn" id="close-entry" type="button" aria-label="Lukk dialog">&times;</button>
       </div>
+      <p class="dialog-description">Dokumenter arbeidet, og del det du har lært underveis.</p>
       <form id="diary-form" novalidate>
-        <div class="field-group">
-          <label for="student">Student</label>
-          <select id="student" name="student" required>
-            <option value="">Select student</option>
-            <option value="Kristian">Kristian</option>
-            <option value="Hans Kristian">Hans Kristian</option>
-            <option value="Kasper">Kasper</option>
-            <option value="Mats">Mats</option>
-          </select>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="student">Hvem logger?</label>
+            <select id="student" name="student" required>
+              <option value="">Velg student...</option>
+              <option value="Kristian">Kristian</option>
+              <option value="Hans Kristian">Hans Kristian</option>
+              <option value="Kasper">Kasper</option>
+              <option value="Mats">Mats</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="entry-date">Dato</label>
+            <input id="entry-date" name="entry_date" type="date" required>
+          </div>
         </div>
-        <div class="field-group">
-          <label for="entry-date">Date</label>
-          <input id="entry-date" name="entry_date" type="date" required>
+        <div class="form-group">
+          <label for="content">Hva har du gjort?</label>
+          <textarea id="content" name="content" rows="7" maxlength="10000" placeholder="Hva jobbet du med? Hva lærte du? Hva blir neste steg?" aria-describedby="content-hint form-message" required></textarea>
+          <p class="field-hint" id="content-hint">Oppgaver, fremgang og refleksjoner. Maks 10 000 tegn.</p>
         </div>
-        <div class="field-group">
-          <label for="content">Entry</label>
-          <textarea id="content" name="content" rows="10" maxlength="10000" placeholder="Write what you did today..." required></textarea>
-        </div>
-        <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+        <p class="form-msg" id="form-message" role="status" aria-live="polite"></p>
         <div class="dialog-actions">
-          <button class="text-button" id="cancel-entry" type="button">Cancel</button>
-          <button class="primary-button" id="submit-button" type="submit">Publish</button>
+          <button class="btn-cancel" id="cancel-entry" type="button">Avbryt</button>
+          <button class="btn-submit" id="submit-button" type="submit">Publiser</button>
         </div>
       </form>
     </div>
   </dialog>
 
+  <!-- ====================================================================
+       MODAL 02: LOGG INN
+       ==================================================================== -->
   <dialog class="entry-dialog login-dialog" id="login-dialog" aria-labelledby="login-heading">
     <div class="dialog-inner">
       <div class="dialog-header">
-        <h2 id="login-heading">Logg inn</h2>
-        <button class="close-button" id="close-login" type="button" aria-label="Close dialog">&times;</button>
+        <div><span class="intro-badge">IS-302 · Studenttilgang</span><h2 class="dialog-title" id="login-heading">Velkommen tilbake</h2></div>
+        <button class="close-btn" id="close-login" type="button" aria-label="Lukk dialog">&times;</button>
       </div>
+
+      <p class="dialog-description">Logg inn for å publisere i gruppens felles praksislogg.</p>
+
       <form id="login-form" novalidate>
-        <div class="field-group">
-          <label for="login-email">Email</label>
-          <input id="login-email" name="email" type="email" autocomplete="username" required>
+        <div class="form-group">
+          <label for="login-email">E-post</label>
+          <input id="login-email" name="email" type="email" autocomplete="username" placeholder="navn@uia.no" required>
         </div>
-        <div class="field-group">
-          <label for="login-password">Password</label>
+        <div class="form-group">
+          <label for="login-password">Passord</label>
           <input id="login-password" name="password" type="password" autocomplete="current-password" required>
         </div>
-        <p class="form-message" id="login-message" role="status" aria-live="polite"></p>
+        <p class="form-msg" id="login-message" role="status" aria-live="polite"></p>
         <div class="dialog-actions">
-          <button class="text-button" id="cancel-login" type="button">Cancel</button>
-          <button class="primary-button" id="login-submit" type="submit">Logg inn</button>
+          <button class="btn-cancel" id="cancel-login" type="button">Avbryt</button>
+          <button class="btn-submit" id="login-submit" type="submit">Logg inn</button>
         </div>
       </form>
+      <details class="demo-login-box">
+        <summary>Sensur og testing</summary>
+        <p>Prøv datoredigering lokalt uten å logge inn.</p>
+        <button class="demo-login-btn" id="demo-login-btn" type="button">Aktiver testmodus</button>
+      </details>
     </div>
   </dialog>
 
+  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/app.js"></script>
