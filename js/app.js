@@ -8,6 +8,12 @@
     "Kasper": "KP",
     "Mats": "MB"
   };
+  const STUDENT_PHOTOS = {
+    "Kristian": "img/team/kristian.png",
+    "Hans Kristian": "img/team/hans-kristian.jpg",
+    "Kasper": "img/team/kasper.png",
+    "Mats": "img/team/mats.jpg"
+  };
 
   // DOM Elements
   const form = document.getElementById("diary-form");
@@ -293,8 +299,23 @@
 
     const avatar = document.createElement("div");
     avatar.className = "author-avatar";
-    avatar.textContent = initials;
     avatar.setAttribute("aria-hidden", "true");
+
+    const photoUrl = STUDENT_PHOTOS[entry.student];
+    if (photoUrl) {
+      const img = document.createElement("img");
+      img.src = photoUrl;
+      img.alt = "";
+      img.className = "author-avatar-img";
+      img.loading = "lazy";
+      img.onerror = () => {
+        img.remove();
+        avatar.textContent = initials;
+      };
+      avatar.append(img);
+    } else {
+      avatar.textContent = initials;
+    }
 
     const authorInfo = document.createElement("div");
     authorInfo.className = "author-info";
