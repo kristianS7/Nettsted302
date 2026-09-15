@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="description"
+    content="Status 1 fra praksis i Kristiansand kommune – IS-302 ved UiA."
+  >
+  <title>Status 1 | IS-302</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">
+    Hopp til hovedinnhold
+  </a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="identity">
+        <a class="brand" href="index.html" aria-label="IS-302 forsiden">
+          IS-302
+        </a>
+        <p class="students">
+          Kristian <span aria-hidden="true">·</span>
+          Hans Kristian <span aria-hidden="true">·</span>
+          Kasper <span aria-hidden="true">·</span>
+          Mats
+        </p>
+      </div>
+
+      <div class="header-actions">
+        <nav class="page-nav" aria-label="Hovedmeny">
+          <a href="index.html">Loggbok</a>
+          <a href="status1.html" aria-current="page">Status 1</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <article class="status-report" aria-labelledby="status-heading">
+      <p class="status-label">
+        Praksisprosjekt ved UiA · Kristiansand kommune
+      </p>
+
+      <h1 id="status-heading">Status 1</h1>
+
+      <!-- Rediger teksten i avsnittene nedenfor. -->
+
+      <h2>Om praksisstedet</h2>
+
+      <p>
+        Vi har praksis i plan og bygg i Kristiansand kommune.
+        Her jobber vi med gamle arkivdokumenter som må moderniseres
+        og gjøres lettere tilgjengelige. Noen av dokumentene er fra
+        tidlig på 1900-tallet, noe som gjør både tyding og
+        strukturering av innholdet utfordrende.
+      </p>
+
+      <h2>Arbeidsoppgaver og fremgang</h2>
+
+      <p>
+        Hittil har vi hatt en gjennomgang av to caser som vi skal
+        jobbe videre med i praksisperioden. Alle har jobbet med den
+        første casen i starten. Vi har fått tilgang til kommunens
+        GeoDoc, hvor vi skal transkribere matrikkelkort. Kortene
+        inneholder protokollnumre knyttet til gårds- og bruksnumre
+        (Gnr/Bnr), som er viktig informasjon for oppmålingsvesenet.
+        Så langt har vi overført innhold fra over 6600 PDF-filer
+        til Excel-ark.
+      </p>
+
+      <p>
+        Vi begynte med å lage egne Python-skript som skulle dele
+        opp dokumentene og bruke OCR-modeller med åpen kildekode
+        til å transkribere innholdet til en flat Excel-tabell.
+        Vi fant raskt ut at dette gikk mye fortere enn med
+        generativ KI, men at nesten ingenting ble riktig.
+      </p>
+
+      <p>
+        Derfor gikk vi over til å bruke KI-agenter med modellene
+        Claude Fable 5.1 og GPT Terra 5.6 til å transkribere filene
+        og overføre innholdet til hvert vårt Excel-ark. Dette
+        fungerte veldig godt. Vi behandler typisk bolker på
+        100 matrikkelkort om gangen og tar stikkprøver i etterkant
+        for å kontrollere kvaliteten.
+      </p>
+
+      <!-- Endre src, alt og bildeteksten når du legger inn bildet. -->
+      <figure class="status-image">
+        <img
+          src="images/status1.jpg"
+          alt="Beskriv hva bildet fra praksisarbeidet viser"
+          loading="lazy"
+        >
+        <figcaption>
+          Skriv en kort bildetekst her.
+        </figcaption>
+      </figure>
+
+      <h2>Utfordringer og veien videre</h2>
+
+      <p>
+        En av de største utfordringene har vært å finne effektive
+        løsninger for å automatisere store arbeidsoppgaver.
+        Målet er å lage en prosess vi kan følge med på og
+        kvalitetssikre, slik at vi slipper å gjøre hele jobben
+        manuelt.
+      </p>
+
+      <p>
+        Det har vært spennende å se hvordan KI kan brukes til å
+        gjøre gamle arkiver mer tilgjengelige, samtidig som vi
+        har erfart hvor viktig det er å kontrollere resultatene.
+        Fremover vil arbeidet innebære mer koding og utvikling.
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <span>IS-302 / Praksisprosjekt ved UiA</span>
+  </footer>
+</body>
+</html>

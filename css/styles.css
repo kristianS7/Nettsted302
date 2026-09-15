@@ -1325,3 +1325,81 @@ input::placeholder, textarea::placeholder { color: var(--color-muted); opacity: 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+/* Navigasjon mellom sidene */
+.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-nav a {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.page-nav a:hover,
+.page-nav a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* Statusrapport */
+.status-report {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 0 4rem;
+}
+
+.status-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem;
+}
+
+.status-report h1 {
+  margin-bottom: 2rem;
+}
+
+.status-report h2 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+.status-report p:not(.status-label) {
+  margin: 0 0 1rem;
+  line-height: 1.8;
+}
+
+.status-image {
+  margin: 2rem 0;
+}
+
+.status-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.status-image figcaption {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .header-inner {
+    flex-wrap: wrap;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+  }
+}
