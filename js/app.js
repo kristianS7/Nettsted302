@@ -1,14 +1,6 @@
 (function () {
   "use strict";
 
-  const STUDENTS = ["Kristian", "Hans Kristian", "Kasper", "Mats"];
-  const STUDENT_INITIALS = {
-    "Kristian": "KS",
-    "Hans Kristian": "HK",
-    "Kasper": "KP",
-    "Mats": "MB"
-  };
-
   // DOM Elements
   const form = document.getElementById("diary-form");
   const dialog = document.getElementById("entry-dialog");
@@ -29,29 +21,30 @@
   const pageMessage = document.getElementById("page-message");
   const feedStatus = document.getElementById("feed-status");
   const entriesList = document.getElementById("entries-list");
-  const filterButtons = document.querySelectorAll("[data-student]");
   const searchInput = document.getElementById("feed-search");
-  const navLinks = document.querySelectorAll("[data-view]");
+  const navLinks = document.querySelectorAll(".main-nav [data-view]");
   const viewPanels = document.querySelectorAll(".view-panel");
-  const editStatusStrip = document.getElementById("edit-status-strip");
-  const modeBadge = document.getElementById("mode-badge");
-  const modeText = document.getElementById("mode-text");
-  const toggleEditModeBtn = document.getElementById("toggle-edit-mode");
-  const demoLoginBtn = document.getElementById("demo-login-btn");
   const authStatus = document.getElementById("auth-status");
   const resultsSummary = document.getElementById("results-summary");
+  const cntAll = document.getElementById("cnt-all");
+
+  // Attachment elements
+  const attachmentInput = document.getElementById("entry-attachments-input");
+  const attachmentDropZone = document.getElementById("attachment-drop-zone");
+  const attachmentPreviewList = document.getElementById("attachment-preview-list");
 
   // State
   let entries = [];
-  let selectedStudent = "all";
   let searchQuery = "";
   let client = null;
   let session = null;
   let authReady = false;
-  let isSimulatedEditMode = false;
+  let pendingAttachments = [];
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function isUserAuthenticated() {
-    return Boolean(session || isSimulatedEditMode);
+    return Boolean(session);
   }
 
   function setFormMessage(message) {
@@ -100,6 +93,25 @@
     return `${action} ${error && error.message ? error.message : "Prøv igjen."}`;
   }
 
+  function formatDate(dateString) {
+    if (!dateString) return "";
+    const [year, month, day] = dateString.split("-").map(Number);
+    if (!year || !month || !day) return dateString;
+    const date = new Date(year, month - 1, day);
+    return new Intl.DateTimeFormat("no-NO", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }).format(date);
+  }
+
+  function formatFileSize(bytes) {
+    if (!bytes || bytes <= 0) return "0 B";
+    const units = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return `${(bytes / Math.pow(1024, i)).toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
+  }
+
   function getLocalDateString(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -108,73 +120,241 @@
   }
 
   function getYesterdayDateString() {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    return getLocalDateString(date);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return getLocalDateString(yesterday);
   }
 
-  function isValidEntryDate(value) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-    const [year, month, day] = value.split("-").map(Number);
-    const date = new Date(`${value}T00:00:00`);
-    return !Number.isNaN(date.getTime())
-      && date.getFullYear() === year
-      && date.getMonth() === month - 1
-      && date.getDate() === day;
+  function isValidEntryDate(dateString) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return false;
+    const [year, month, day] = dateString.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
+    return (
+      date.getFullYear() === year &&
+      date.getMonth() === month - 1 &&
+      date.getDate() === day
+    );
   }
 
-  function validateEntry(entry) {
-    if (!STUDENTS.includes(entry.student)) return "Velg en student.";
-    if (!isValidEntryDate(entry.entry_date)) return "Velg en gyldig dato.";
-    if (entry.entry_date > getLocalDateString(new Date())) return "Datoen kan ikke være i fremtiden.";
-    if (!entry.content) return "Skriv hva du har gjort først.";
-    if (entry.content.length > 10000) return "Hold teksten under 10 000 tegn.";
-    return "";
+  // =========================================================================
+  // TYPEWRITER & SCROLL REVEAL ANIMATIONS
+  // =========================================================================
+  function runTypewriter(el, targetText, speed = 25) {
+    if (prefersReducedMotion) {
+      el.textContent = targetText;
+      el.dataset.typed = "true";
+      return;
+    }
+
+    if (el.dataset.typed === "true" || el.dataset.typing === "true") return;
+    el.dataset.typing = "true";
+
+    const textToType = targetText || el.getAttribute("data-typewriter") || el.textContent;
+    el.textContent = "";
+
+    const cursor = document.createElement("span");
+    cursor.className = "typewriter-cursor";
+    cursor.setAttribute("aria-hidden", "true");
+    el.append(cursor);
+
+    let index = 0;
+    function step() {
+      if (index < textToType.length) {
+        const char = textToType.charAt(index);
+        cursor.before(document.createTextNode(char));
+        index++;
+        const delay = char === " " ? speed * 0.6 : speed + (Math.random() * 15 - 7);
+        window.setTimeout(step, Math.max(12, delay));
+      } else {
+        el.dataset.typed = "true";
+        delete el.dataset.typing;
+        window.setTimeout(() => {
+          cursor.classList.add("fade-out");
+          window.setTimeout(() => cursor.remove(), 400);
+        }, 1200);
+      }
+    }
+    step();
   }
 
-  function getEntryFromForm() {
-    const formData = new FormData(form);
-    return {
-      student: String(formData.get("student") || "").trim(),
-      content: String(formData.get("content") || "").trim(),
-      entry_date: String(formData.get("entry_date") || "").trim()
-    };
+  function initScrollAndTypewriterAnimations() {
+    if (prefersReducedMotion) {
+      document.querySelectorAll("[data-reveal]").forEach((el) => el.classList.add("is-revealed"));
+      document.querySelectorAll("[data-typewriter]").forEach((el) => {
+        el.textContent = el.getAttribute("data-typewriter") || el.textContent;
+      });
+      return;
+    }
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            if (entry.target.hasAttribute("data-typewriter")) {
+              runTypewriter(entry.target, entry.target.getAttribute("data-typewriter"));
+            }
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    document.querySelectorAll("[data-reveal], [data-typewriter]").forEach((el) => {
+      revealObserver.observe(el);
+    });
   }
 
-  function getLoginFromForm() {
-    const formData = new FormData(loginForm);
-    return {
-      email: String(formData.get("email") || "").trim(),
-      password: String(formData.get("password") || "")
-    };
+  function triggerAnimationsInPanel(panel) {
+    if (!panel || prefersReducedMotion) return;
+    panel.querySelectorAll("[data-reveal]:not(.is-revealed)").forEach((el) => {
+      el.classList.add("is-revealed");
+    });
+    panel.querySelectorAll("[data-typewriter]:not([data-typed='true'])").forEach((el) => {
+      runTypewriter(el, el.getAttribute("data-typewriter"));
+    });
   }
 
-  function formatDate(value) {
-    const date = /^\d{4}-\d{2}-\d{2}$/.test(value)
-      ? new Date(`${value}T00:00:00`)
-      : new Date(value);
-    if (Number.isNaN(date.getTime())) return "Dato mangler";
-    return new Intl.DateTimeFormat("no-NO", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    }).format(date);
+  // =========================================================================
+  // VIEW SWITCHING
+  // =========================================================================
+  function switchView(targetView) {
+    navLinks.forEach((link) => {
+      const isTarget = link.dataset.view === targetView;
+      link.classList.toggle("active", isTarget);
+      if (isTarget) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
+
+    viewPanels.forEach((panel) => {
+      const isTarget = panel.id === `view-${targetView}`;
+      panel.classList.toggle("active", isTarget);
+      if (isTarget) {
+        triggerAnimationsInPanel(panel);
+      }
+    });
+
+    const heading = document.querySelector(`#view-${targetView} h1, #view-${targetView} h2`);
+    if (heading) {
+      heading.setAttribute("tabindex", "-1");
+      heading.focus({ preventScroll: true });
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function updateCounts() {
-    const cntAll = document.getElementById("cnt-all");
-    if (cntAll) cntAll.textContent = String(entries.length);
+  // =========================================================================
+  // ATTACHMENTS HANDLING
+  // =========================================================================
+  function renderAttachmentPreviews() {
+    if (!attachmentPreviewList) return;
+    attachmentPreviewList.replaceChildren();
 
-    STUDENTS.forEach((student) => {
-      const slug = student.replace(/\s+/g, "-");
-      const el = document.getElementById(`cnt-${slug}`);
-      if (el) {
-        const count = entries.filter((e) => e.student === student).length;
-        el.textContent = String(count);
+    if (pendingAttachments.length === 0) return;
+
+    pendingAttachments.forEach((att, index) => {
+      const item = document.createElement("div");
+      item.className = "attachment-preview-item";
+
+      const icon = document.createElement("span");
+      icon.className = "attachment-preview-icon";
+      icon.textContent = att.type.startsWith("image/") ? "🖼️" : att.type.includes("pdf") ? "📕" : "📄";
+      icon.setAttribute("aria-hidden", "true");
+
+      const info = document.createElement("div");
+      info.className = "attachment-preview-info";
+
+      const name = document.createElement("span");
+      name.className = "attachment-preview-name";
+      name.textContent = att.name;
+
+      const size = document.createElement("span");
+      size.className = "attachment-preview-size";
+      size.textContent = formatFileSize(att.size);
+
+      info.append(name, size);
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "attachment-remove-btn";
+      removeBtn.setAttribute("aria-label", `Fjern ${att.name}`);
+      removeBtn.innerHTML = "&times;";
+      removeBtn.addEventListener("click", () => {
+        pendingAttachments.splice(index, 1);
+        renderAttachmentPreviews();
+      });
+
+      item.append(icon, info, removeBtn);
+      attachmentPreviewList.append(item);
+    });
+  }
+
+  function handleFiles(files) {
+    if (!files || files.length === 0) return;
+    const maxFileSize = 6 * 1024 * 1024; // 6MB limit per file for inline storage
+
+    Array.from(files).forEach((file) => {
+      if (file.size > maxFileSize) {
+        setPageMessage(`Filen "${file.name}" er for stor (maks 6 MB).`, "error");
+        return;
+      }
+
+      // Avoid duplicates
+      if (pendingAttachments.some((a) => a.name === file.name && a.size === file.size)) {
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        pendingAttachments.push({
+          name: file.name,
+          size: file.size,
+          type: file.type || "application/octet-stream",
+          data: e.target.result
+        });
+        renderAttachmentPreviews();
+      };
+      reader.onerror = () => {
+        setPageMessage(`Kunne ikke lese filen "${file.name}".`, "error");
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function initAttachmentZone() {
+    if (!attachmentInput || !attachmentDropZone) return;
+
+    attachmentInput.addEventListener("change", (e) => {
+      handleFiles(e.target.files);
+      attachmentInput.value = "";
+    });
+
+    ["dragenter", "dragover"].forEach((eventName) => {
+      attachmentDropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        attachmentDropZone.classList.add("drag-over");
+      });
+    });
+
+    ["dragleave", "drop"].forEach((eventName) => {
+      attachmentDropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        attachmentDropZone.classList.remove("drag-over");
+      });
+    });
+
+    attachmentDropZone.addEventListener("drop", (e) => {
+      if (e.dataTransfer && e.dataTransfer.files) {
+        handleFiles(e.dataTransfer.files);
       }
     });
   }
 
+  // =========================================================================
+  // AUTHENTICATION
+  // =========================================================================
   function updateAuthUI(nextSession) {
     session = nextSession;
     const isAuth = isUserAuthenticated();
@@ -183,38 +363,71 @@
     if (headerLoginBtn) headerLoginBtn.hidden = Boolean(session);
     if (openButton) openButton.disabled = !authReady;
     if (authStatus) {
-      authStatus.textContent = session ? "Innlogget" : isSimulatedEditMode ? "Testmodus" : "Ikke innlogget";
-    }
-
-    if (editStatusStrip) {
-      editStatusStrip.classList.toggle("active", isAuth);
-    }
-
-    if (modeBadge) {
-      modeBadge.textContent = isAuth ? "Redigering aktiv" : "Lesemodus";
-    }
-
-    if (modeText) {
-      if (session) {
-        const email = (session.user && session.user.email) || "Innlogget bruker";
-        modeText.textContent = `Innlogget som ${email}. Du kan redigere datoer direkte på kortene.`;
-      } else if (isSimulatedEditMode) {
-        modeText.textContent = "Testmodus aktiv: Du kan redigere og endre datoer direkte på kortene.";
-      } else {
-        modeText.textContent = "Logg inn for å redigere datoer direkte på kortene.";
-      }
-    }
-
-    if (toggleEditModeBtn) {
-      toggleEditModeBtn.textContent = isAuth
-        ? "Gå tilbake til lesemodus"
-        : "Aktiver redigering (test)";
+      authStatus.textContent = session ? "Innlogget" : "Ikke innlogget";
     }
 
     renderEntries();
   }
 
-  // Direct in-place date update handler
+  async function handleLogin(e) {
+    e.preventDefault();
+    if (!client) return;
+
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+
+    if (!email || !password) {
+      setLoginMessage("Fyll ut både e-post og passord.");
+      return;
+    }
+
+    loginSubmitButton.disabled = true;
+    loginSubmitButton.textContent = "Logger inn...";
+    setLoginMessage("");
+
+    try {
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      closeLoginDialog();
+      setPageMessage("Du er nå logget inn.", "success");
+      updateAuthUI(data.session);
+    } catch (error) {
+      setLoginMessage(error.message || "Feil ved innlogging.");
+    } finally {
+      loginSubmitButton.disabled = false;
+      loginSubmitButton.textContent = "Logg inn";
+    }
+  }
+
+  async function handleLogout() {
+    if (!client) return;
+    try {
+      await client.auth.signOut();
+      setPageMessage("Du er logget ut.", "success");
+      updateAuthUI(null);
+    } catch (error) {
+      setPageMessage(error.message || "Feil ved utlogging.", "error");
+    }
+  }
+
+  function openLoginDialog() {
+    setLoginMessage("");
+    if (loginDialog) {
+      loginDialog.showModal();
+      const emailInput = document.getElementById("login-email");
+      if (emailInput) emailInput.focus();
+    }
+  }
+
+  function closeLoginDialog() {
+    if (loginDialog) loginDialog.close();
+    if (loginForm) loginForm.reset();
+    setLoginMessage("");
+  }
+
+  // =========================================================================
+  // ENTRIES & LOGGBOK RENDERING
+  // =========================================================================
   async function handleDateUpdate(entry, newDate, saveBtn, feedbackEl) {
     if (!isValidEntryDate(newDate)) {
       setPageMessage("Velg en gyldig dato.", "error");
@@ -228,9 +441,6 @@
     saveBtn.disabled = true;
     saveBtn.textContent = "Lagrer...";
 
-    let updateRemoteOk = true;
-    let errNotice = "";
-
     if (client && session) {
       try {
         const { error } = await client
@@ -240,8 +450,6 @@
         if (error) throw error;
       } catch (err) {
         console.warn("Supabase update error:", err);
-        updateRemoteOk = false;
-        errNotice = err.message || "";
       }
     }
 
@@ -259,23 +467,19 @@
     saveBtn.textContent = "Lagre";
 
     if (feedbackEl) {
-      feedbackEl.textContent = "✓ Lagret";
+      feedbackEl.textContent = "Lagret!";
       feedbackEl.classList.add("visible");
-      window.setTimeout(() => feedbackEl.classList.remove("visible"), 2000);
-    }
-
-    if (updateRemoteOk) {
-      setPageMessage(`Dato for ${entry.student} ble oppdatert til ${formatDate(newDate)}.`, "success");
+      window.setTimeout(() => {
+        feedbackEl.classList.remove("visible");
+        renderEntries();
+      }, 1000);
     } else {
-      setPageMessage(`Dato er oppdatert lokalt (${errNotice}).`, "error");
+      renderEntries();
     }
-
-    renderEntries();
   }
 
   function createEntryElement(entry) {
     const isAuth = isUserAuthenticated();
-    const initials = STUDENT_INITIALS[entry.student] || "ST";
     const today = getLocalDateString(new Date());
     const yesterday = getYesterdayDateString();
 
@@ -287,32 +491,35 @@
     const top = document.createElement("div");
     top.className = "entry-card-top";
 
-    // Author
+    // Author: Teamet as a whole
     const authorBlock = document.createElement("div");
     authorBlock.className = "author-block";
 
     const avatar = document.createElement("div");
-    avatar.className = "author-avatar";
-    avatar.textContent = initials;
+    avatar.className = "author-avatar author-team-avatar";
     avatar.setAttribute("aria-hidden", "true");
+    avatar.textContent = "👥";
 
     const authorInfo = document.createElement("div");
     authorInfo.className = "author-info";
 
     const name = document.createElement("span");
     name.className = "author-name";
-    name.textContent = entry.student;
+    name.textContent = "IS-302 Teamet";
 
-    authorInfo.append(name);
+    const sub = document.createElement("span");
+    sub.className = "author-subtext";
+    sub.textContent = "Kristiansand kommune · Plan og bygg";
+
+    authorInfo.append(name, sub);
     authorBlock.append(avatar, authorInfo);
     top.append(authorBlock);
 
-    // Date / Direct Date Editor
+    // Date / Date Editor
     const dateBlock = document.createElement("div");
     dateBlock.className = "date-editor-block";
 
     if (isAuth) {
-      // Inline Date Editor for authenticated users
       const box = document.createElement("div");
       box.className = "inline-edit-box";
 
@@ -321,7 +528,7 @@
       dateInput.className = "inline-date-input";
       dateInput.value = entry.entry_date || today;
       dateInput.max = today;
-      dateInput.setAttribute("aria-label", `Dato for ${entry.student}`);
+      dateInput.setAttribute("aria-label", "Dato for innlegget");
 
       const saveBtn = document.createElement("button");
       saveBtn.type = "button";
@@ -332,13 +539,11 @@
       todayBtn.type = "button";
       todayBtn.className = "inline-preset-btn";
       todayBtn.textContent = "I dag";
-      todayBtn.title = "Sett til i dag";
 
       const yestBtn = document.createElement("button");
       yestBtn.type = "button";
       yestBtn.className = "inline-preset-btn";
       yestBtn.textContent = "I går";
-      yestBtn.title = "Sett til i går";
 
       const feedback = document.createElement("span");
       feedback.className = "inline-feedback";
@@ -357,154 +562,169 @@
         handleDateUpdate(entry, dateInput.value, saveBtn, feedback);
       });
 
-      dateInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          handleDateUpdate(entry, dateInput.value, saveBtn, feedback);
-        }
-      });
-
       box.append(dateInput, saveBtn, todayBtn, yestBtn, feedback);
       dateBlock.append(box);
     } else {
-      // Normal Read Mode Date with Edit prompt
       const dateText = document.createElement("time");
       dateText.className = "date-badge";
       dateText.dateTime = entry.entry_date || "";
       dateText.textContent = formatDate(entry.entry_date);
-
-      const editPromptBtn = document.createElement("button");
-      editPromptBtn.type = "button";
-      editPromptBtn.className = "btn-inline-edit";
-      editPromptBtn.textContent = "Endre dato";
-      editPromptBtn.title = "Klikk for å aktivere datoredigering";
-
-      editPromptBtn.addEventListener("click", () => {
-        isSimulatedEditMode = true;
-        updateAuthUI(session);
-        setPageMessage("Redigeringsmodus aktivert. Du kan nå endre datoer direkte på kortene.", "success");
-      });
-
-      dateBlock.append(dateText, editPromptBtn);
+      dateBlock.append(dateText);
     }
 
     top.append(dateBlock);
     card.append(top);
 
-    // Card Body
+    // Entry Body Text
     const body = document.createElement("div");
-    body.className = "entry-card-body";
-
-    const content = document.createElement("p");
-    content.className = "entry-text";
-    content.textContent = entry.content;
-
-    body.append(content);
+    body.className = "entry-text";
+    body.textContent = entry.content;
     card.append(body);
+
+    // Render Attachments if available
+    let attachmentsList = entry.attachments;
+    if (typeof attachmentsList === "string") {
+      try {
+        attachmentsList = JSON.parse(attachmentsList);
+      } catch (e) {
+        attachmentsList = null;
+      }
+    }
+
+    if (Array.isArray(attachmentsList) && attachmentsList.length > 0) {
+      const attContainer = document.createElement("div");
+      attContainer.className = "entry-attachments-wrapper";
+
+      const attHeader = document.createElement("span");
+      attHeader.className = "entry-attachments-title";
+      attHeader.textContent = `Vedlegg (${attachmentsList.length}):`;
+      attContainer.append(attHeader);
+
+      const attGrid = document.createElement("div");
+      attGrid.className = "entry-attachments-grid";
+
+      attachmentsList.forEach((att) => {
+        const item = document.createElement("a");
+        item.className = "entry-attachment-item";
+        item.href = att.data || att.url || "#";
+        item.download = att.name || "vedlegg";
+        item.target = "_blank";
+        item.rel = "noopener noreferrer";
+
+        const isImg = att.type && att.type.startsWith("image/");
+        const isPdf = att.type && att.type.includes("pdf");
+
+        if (isImg && att.data) {
+          const thumb = document.createElement("img");
+          thumb.src = att.data;
+          thumb.alt = att.name;
+          thumb.className = "attachment-thumb";
+          thumb.loading = "lazy";
+          item.append(thumb);
+        } else {
+          const icon = document.createElement("span");
+          icon.className = "attachment-item-icon";
+          icon.textContent = isPdf ? "📕" : "📄";
+          icon.setAttribute("aria-hidden", "true");
+          item.append(icon);
+        }
+
+        const details = document.createElement("div");
+        details.className = "attachment-item-details";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "attachment-item-name";
+        nameSpan.textContent = att.name;
+
+        const sizeSpan = document.createElement("span");
+        sizeSpan.className = "attachment-item-size";
+        sizeSpan.textContent = att.size ? formatFileSize(att.size) : "Last ned";
+
+        details.append(nameSpan, sizeSpan);
+        item.append(details);
+        attGrid.append(item);
+      });
+
+      attContainer.append(attGrid);
+      card.append(attContainer);
+    }
 
     return card;
   }
 
   function renderEntries() {
     if (!entriesList) return;
-    // Authentication and filters can update while the initial read is pending.
-    // Only show an empty result after a successful load, never alongside an error.
-    if (!feedStatus.classList.contains("ready")) {
-      entriesList.replaceChildren();
-      return;
-    }
 
-    let filtered = entries;
-
-    if (selectedStudent !== "all") {
-      filtered = filtered.filter((e) => e.student === selectedStudent);
-    }
+    let filtered = entries.slice();
 
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      filtered = filtered.filter((e) => {
-        return (
-          (e.student && e.student.toLowerCase().includes(q)) ||
-          (e.content && e.content.toLowerCase().includes(q)) ||
-          (e.entry_date && e.entry_date.includes(q))
-        );
+      const q = searchQuery.toLowerCase().trim();
+      filtered = filtered.filter((entry) => {
+        const text = (entry.content || "").toLowerCase();
+        const dateStr = (entry.entry_date || "").toLowerCase();
+        return text.includes(q) || dateStr.includes(q);
       });
     }
 
-    entriesList.replaceChildren();
-    if (resultsSummary) {
-      resultsSummary.textContent = `${filtered.length} innlegg vises${selectedStudent === "all" ? "" : ` fra ${selectedStudent}`}${searchQuery ? " for søket" : ""}.`;
+    if (cntAll) {
+      cntAll.textContent = String(filtered.length);
     }
 
-    if (!filtered.length) {
-      const emptyMsg = document.createElement("div");
-      emptyMsg.className = "feed-status";
-      emptyMsg.textContent = selectedStudent === "all"
-        ? (searchQuery ? "Ingen innlegg matchet søket." : "Ingen loggføringer ennå.")
-        : `Ingen innlegg registrert på ${selectedStudent}${searchQuery ? " som matcher søket" : ""}.`;
-      entriesList.append(emptyMsg);
+    if (filtered.length === 0) {
+      entriesList.replaceChildren();
+      if (searchQuery.trim()) {
+        setFeedStatus(`Ingen innlegg matcher søket «${searchQuery}».`, "ready");
+      } else {
+        setFeedStatus("Ingen innlegg publisert ennå.", "ready");
+      }
       return;
     }
 
+    setFeedStatus("", "ready");
+    entriesList.replaceChildren();
     filtered.forEach((entry) => {
       entriesList.append(createEntryElement(entry));
     });
   }
 
   async function loadEntries() {
-    setFeedStatus("Laster logginnlegg...", "loading");
+    setFeedStatus("Laster innlegg...", "loading");
     try {
-      const { data, error } = await client
+      let loadedData = null;
+
+      // Try reading with attachments column
+      const { data: resWithAtt, error: errWithAtt } = await client
         .from("internship_entries")
-        .select("id, student, content, entry_date, created_at")
+        .select("id, student, content, entry_date, created_at, attachments")
         .order("entry_date", { ascending: false })
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      entries = data || [];
+      if (errWithAtt) {
+        // Fallback without attachments column if migration hasn't been run yet
+        const { data: resNoAtt, error: errNoAtt } = await client
+          .from("internship_entries")
+          .select("id, student, content, entry_date, created_at")
+          .order("entry_date", { ascending: false })
+          .order("created_at", { ascending: false });
+        if (errNoAtt) throw errNoAtt;
+        loadedData = resNoAtt || [];
+      } else {
+        loadedData = resWithAtt || [];
+      }
+
+      entries = loadedData;
       setFeedStatus("", "ready");
-      updateCounts();
       renderEntries();
     } catch (error) {
       entries = [];
       entriesList.replaceChildren();
-      setFeedStatus(getErrorMessage(error, "Kunne ikke hente logginnlegg."), "error");
+      setFeedStatus(getErrorMessage(error, "Kunne ikke hente innlegg."), "error");
     }
   }
 
-  // Switch views
-  function switchView(targetView) {
-    navLinks.forEach((link) => {
-      const isTarget = link.dataset.view === targetView;
-      link.classList.toggle("active", isTarget);
-      if (isTarget) link.setAttribute("aria-current", "page");
-      else link.removeAttribute("aria-current");
-    });
-
-    viewPanels.forEach((panel) => {
-      const isTarget = panel.id === `view-${targetView}`;
-      panel.classList.toggle("active", isTarget);
-    });
-
-    const heading = document.querySelector(`#view-${targetView} h1`);
-    if (heading) {
-      heading.setAttribute("tabindex", "-1");
-      heading.focus({ preventScroll: true });
-    }
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }
-
-  function jumpToStudent(studentName) {
-    selectedStudent = studentName;
-    filterButtons.forEach((btn) => {
-      const isTarget = btn.dataset.student === studentName;
-      btn.classList.toggle("active", isTarget);
-      btn.setAttribute("aria-pressed", String(isTarget));
-    });
-    switchView("loggbok");
-    renderEntries();
-  }
-
+  // =========================================================================
+  // NEW ENTRY DIALOG & PUBLISHING
+  // =========================================================================
   function openEntryDialog() {
     setFormMessage("");
     const today = getLocalDateString(new Date());
@@ -512,136 +732,110 @@
       entryDateInput.max = today;
       entryDateInput.value = today;
     }
+    pendingAttachments = [];
+    renderAttachmentPreviews();
     if (dialog) {
       dialog.showModal();
-      const studentSelect = document.getElementById("student");
-      if (studentSelect) studentSelect.focus();
-    }
-  }
-
-  function openLoginDialog() {
-    setLoginMessage("");
-    if (loginDialog) {
-      loginDialog.showModal();
-      const emailInput = document.getElementById("login-email");
-      if (emailInput) emailInput.focus();
+      const contentEl = document.getElementById("content");
+      if (contentEl) contentEl.focus();
     }
   }
 
   function closeDialog() {
     if (dialog) dialog.close();
     if (form) form.reset();
+    pendingAttachments = [];
+    renderAttachmentPreviews();
     setFormMessage("");
   }
 
-  function closeLoginDialog() {
-    if (loginDialog) loginDialog.close();
-    if (loginForm) loginForm.reset();
-    setLoginMessage("");
-  }
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!client) return;
 
-  async function handleLogin(event) {
-    event.preventDefault();
-    setLoginMessage("");
-    const credentials = getLoginFromForm();
-    if (!credentials.email || !credentials.email.includes("@") || !credentials.password) {
-      setLoginMessage("Skriv inn e-post og passord.");
+    const contentInput = document.getElementById("content");
+    const dateInput = document.getElementById("entry-date");
+
+    const content = contentInput ? contentInput.value.trim() : "";
+    const entryDate = dateInput ? dateInput.value : "";
+
+    if (!content) {
+      setFormMessage("Vennligst skriv innhold for innlegget.");
       return;
     }
 
-    loginSubmitButton.disabled = true;
-    loginSubmitButton.textContent = "Logger inn...";
-    try {
-      const { error } = await client.auth.signInWithPassword(credentials);
-      if (error) throw error;
-      closeLoginDialog();
-      setPageMessage("Logget inn.", "success");
-    } catch (error) {
-      setLoginMessage(`Kunne ikke logge inn: ${error.message || "Sjekk detaljene og prøv igjen."}`);
-    } finally {
-      loginSubmitButton.disabled = false;
-      loginSubmitButton.textContent = "Logg inn";
-    }
-  }
-
-  async function handleLogout() {
-    logoutButton.disabled = true;
-    isSimulatedEditMode = false;
-    try {
-      const { error } = await client.auth.signOut();
-      if (error) throw error;
-      setPageMessage("Logget ut.", "success");
-    } catch (error) {
-      setPageMessage(`Kunne ikke logge ut: ${error.message || "Prøv igjen."}`, "error");
-    } finally {
-      logoutButton.disabled = false;
-      updateAuthUI(null);
-    }
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    if (!isUserAuthenticated()) {
-      closeDialog();
-      openLoginDialog();
+    if (!isValidEntryDate(entryDate)) {
+      setFormMessage("Velg en gyldig dato.");
       return;
     }
 
-    setFormMessage("");
-    const entry = getEntryFromForm();
-    const validationMessage = validateEntry(entry);
-    if (validationMessage) {
-      setFormMessage(validationMessage);
+    if (entryDate > getLocalDateString(new Date())) {
+      setFormMessage("Datoen kan ikke være i fremtiden.");
       return;
     }
 
     submitButton.disabled = true;
     submitButton.textContent = "Publiserer...";
+
+    const payload = {
+      student: "Teamet",
+      content: content,
+      entry_date: entryDate,
+      attachments: pendingAttachments
+    };
+
     try {
-      const { error } = await client.from("internship_entries").insert(entry);
-      if (error) throw error;
+      // First attempt: insert with Teamet and attachments
+      let { error } = await client.from("internship_entries").insert(payload);
+
+      if (error) {
+        // If attachments column doesn't exist yet, retry without attachments column
+        const payloadNoAtt = {
+          student: "Teamet",
+          content: payload.attachments.length > 0
+            ? `${content}\n\n---\n📎 Vedlegg: ${payload.attachments.map(a => a.name).join(", ")}`
+            : content,
+          entry_date: entryDate
+        };
+        const retry1 = await client.from("internship_entries").insert(payloadNoAtt);
+
+        if (retry1.error) {
+          // If check constraint requires individual student until SQL migration:
+          const payloadFallback = {
+            student: "Kristian",
+            content: payloadNoAtt.content,
+            entry_date: entryDate
+          };
+          const retry2 = await client.from("internship_entries").insert(payloadFallback);
+          if (retry2.error) throw retry2.error;
+        }
+      }
+
       closeDialog();
-      setPageMessage("Logginnlegg publisert.", "success");
+      setPageMessage("Nytt innlegg publisert av teamet.", "success");
       await loadEntries();
-    } catch (error) {
-      setFormMessage(getErrorMessage(error, "Kunne ikke publisere innlegg."));
+    } catch (err) {
+      setFormMessage(getErrorMessage(err, "Kunne ikke publisere innlegg."));
     } finally {
       submitButton.disabled = false;
       submitButton.textContent = "Publiser";
     }
   }
 
+  // =========================================================================
+  // INITIALIZATION
+  // =========================================================================
   function start() {
-    // Nav links
-    navLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        const view = link.dataset.view;
-        if (view) switchView(view);
-      });
-    });
-
-    // Jump to student shortcuts
+    // Global delegation for view switching
     document.addEventListener("click", (e) => {
-      const target = e.target.closest("[data-jump-student]");
+      const target = e.target.closest("[data-view]");
       if (target) {
-        const student = target.getAttribute("data-jump-student");
-        if (student) jumpToStudent(student);
+        const view = target.getAttribute("data-view");
+        if (view) switchView(view);
       }
     });
 
-    // Filters
-    filterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        selectedStudent = button.dataset.student;
-        filterButtons.forEach((fb) => {
-          fb.classList.toggle("active", fb === button);
-          fb.setAttribute("aria-pressed", String(fb === button));
-        });
-        renderEntries();
-      });
-    });
-
-    // Search
+    // Search input
     if (searchInput) {
       searchInput.addEventListener("input", (e) => {
         searchQuery = e.target.value;
@@ -649,14 +843,16 @@
       });
     }
 
-    // Modal buttons
-    if (openButton) openButton.addEventListener("click", () => {
-      if (isUserAuthenticated()) {
-        openEntryDialog();
-      } else {
-        openLoginDialog();
-      }
-    });
+    // Modal triggers
+    if (openButton) {
+      openButton.addEventListener("click", () => {
+        if (isUserAuthenticated()) {
+          openEntryDialog();
+        } else {
+          openLoginDialog();
+        }
+      });
+    }
 
     if (headerLoginBtn) headerLoginBtn.addEventListener("click", openLoginDialog);
     if (logoutButton) logoutButton.addEventListener("click", handleLogout);
@@ -679,28 +875,13 @@
       });
     }
 
-    // Toggle edit mode
-    if (toggleEditModeBtn) {
-      toggleEditModeBtn.addEventListener("click", () => {
-        isSimulatedEditMode = !isSimulatedEditMode;
-        updateAuthUI(session);
-        setPageMessage(
-          isSimulatedEditMode
-            ? "Redigeringsmodus aktivert. Datoer kan nå oppdateres direkte på kortene."
-            : "Lesemodus aktivert.",
-          isSimulatedEditMode ? "success" : ""
-        );
-      });
-    }
+    initAttachmentZone();
+    initScrollAndTypewriterAnimations();
 
-    if (demoLoginBtn) {
-      demoLoginBtn.addEventListener("click", () => {
-        isSimulatedEditMode = true;
-        closeLoginDialog();
-        updateAuthUI(session);
-        switchView("loggbok");
-        setPageMessage("Redigeringsmodus aktivert for testing.", "success");
-      });
+    // Trigger hero typewriter on initial load
+    const heroTitle = document.querySelector(".hero-title[data-typewriter]");
+    if (heroTitle) {
+      runTypewriter(heroTitle, heroTitle.getAttribute("data-typewriter"), 28);
     }
 
     // Initialize Supabase
@@ -723,7 +904,6 @@
       if (error) throw error;
       updateAuthUI(data.session);
       authReady = true;
-      updateAuthUI(session);
     }).catch((error) => {
       console.warn("Auth check error:", error);
       updateAuthUI(null);

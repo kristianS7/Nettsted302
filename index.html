@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="IS-302: Ukentlig praksislogg og prosjekter for Kristiansand kommune.">
+  <meta name="description" content="IS-302: Praksis & digitalisering for Kristiansand kommune. Prosjektdagbok og prosjekter.">
   <meta name="theme-color" content="#f6f5ef">
-  <title>IS-302 | Praksisloggbok</title>
+  <title>IS-302 | Praksis & Digitalisering</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
     <div class="header-inner">
       <div class="brand-group">
         <a class="brand-logo" href="./" aria-label="IS-302 Hjem">
-          IS-302<span aria-hidden="true">.</span>
+          IS-302
         </a>
         <div class="brand-divider" aria-hidden="true"></div>
         <div class="brand-details">
@@ -25,40 +25,35 @@
         </div>
       </div>
 
+      <!-- Partner logos: Kristiansand kommune & UiA -->
+      <div class="header-partner-logos" aria-label="Samarbeidspartnere">
+        <a class="partner-logo-link" href="https://www.kristiansand.kommune.no" target="_blank" rel="noopener noreferrer" title="Gå til Kristiansand kommune">
+          <img src="img/logos/kristiansand-kommune-logo.png" alt="Kristiansand kommune" class="partner-logo logo-kommune">
+        </a>
+        <div class="partner-logo-divider" aria-hidden="true"></div>
+        <a class="partner-logo-link" href="https://www.uia.no" target="_blank" rel="noopener noreferrer" title="Gå til Universitetet i Agder (UiA)">
+          <img src="img/logos/uia-logo.png" alt="Universitetet i Agder" class="partner-logo logo-uia">
+        </a>
+      </div>
+
       <!-- Section navigation -->
-<nav class="main-nav" aria-label="Hovednavigasjon">
-  <button
-    class="nav-link active"
-    type="button"
-    data-view="loggbok"
-    aria-current="page"
-    aria-controls="view-loggbok"
-  >
-    Loggbok
-  </button>
-
-  <button
-    class="nav-link"
-    type="button"
-    data-view="hva-vi-gjor"
-    aria-controls="view-hva-vi-gjor"
-  >
-    Prosjekter
-  </button>
-
-  <button
-    class="nav-link"
-    type="button"
-    data-view="team"
-    aria-controls="view-team"
-  >
-    Team
-  </button>
-
-  <a class="status-page-link" href="status1.html">
-    Status 1
-  </a>
-</nav>
+    <nav class="main-nav" aria-label="Hovednavigasjon">
+      <button class="nav-link active" type="button" data-view="hjem" aria-current="page" aria-controls="view-hjem">
+        Hjem
+      </button>
+      <button class="nav-link" type="button" data-view="loggbok" aria-controls="view-loggbok">
+        Prosjektdagbok
+      </button>
+      <button class="nav-link" type="button" data-view="hva-vi-gjor" aria-controls="view-hva-vi-gjor">
+        Prosjekter
+      </button>
+      <button class="nav-link" type="button" data-view="team" aria-controls="view-team">
+        Team
+      </button>
+      <a class="status-page-link" href="status1.html">
+        Status 1
+      </a>
+    </nav>
 
       <!-- Account and publishing -->
       <div class="header-actions">
@@ -82,7 +77,263 @@
   </div>
 
   <main id="main-content" tabindex="-1">
-    <noscript><p class="feed-status">Slå på JavaScript for å lese loggboken og logge inn.</p></noscript>
+    <noscript><p class="feed-status">Slå på JavaScript for å lese prosjektdagboken og logge inn.</p></noscript>
+
+    <!-- ====================================================================
+         VIEW 00: HJEM (LANDINGSSIDE)
+         ==================================================================== -->
+    <section class="view-panel active" id="view-hjem" aria-labelledby="heading-hjem">
+
+      <!-- Hero / Ingress -->
+      <div class="home-hero">
+        <div class="hero-content">
+          <span class="intro-badge" data-reveal>IS-302 · Praksis & Digitalisering 2026</span>
+          <h1 class="hero-title" id="heading-hjem" data-typewriter="Digital innovasjon og fremtidsrettet planarbeid i Kristiansand kommune">
+            Digital innovasjon og fremtidsrettet planarbeid i Kristiansand kommune
+          </h1>
+          <p class="hero-lead" data-reveal>
+            Vi er fire IT-studenter fra Universitetet i Agder (UiA) i praksis hos Kristiansand kommune. Gjennom semesteret utforsker vi hvordan kunstig intelligens, datamodeller og åpne standarder kan fornye kommunal saksbehandling og forvaltning av eiendoms- og plandata.
+          </p>
+          <div class="hero-actions" data-reveal>
+            <button class="btn-hero-primary" type="button" data-view="loggbok">
+              Les prosjektdagboken &rarr;
+            </button>
+            <button class="btn-hero-secondary" type="button" data-view="hva-vi-gjor">
+              Se prosjektene våre &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Key Stats / Facts Banner -->
+        <div class="home-stats-strip" data-reveal>
+          <div class="stat-box">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Studenter fra UiA</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number">1</span>
+            <span class="stat-label">Semester i praksis</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number">2</span>
+            <span class="stat-label">Kjerneinitiativer</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Felles teamfokus</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEKSJON: HVOR ER VI? -->
+      <section class="home-section" id="hvor-vi-er" aria-labelledby="heading-hvor" data-reveal>
+        <div class="section-label-row">
+          <span class="section-numeral">01</span>
+          <span class="project-tag">Praksisplass & Vertsorganisasjon</span>
+        </div>
+        <div class="home-grid-2col">
+          <div class="home-text-col">
+            <h2 class="home-section-title" id="heading-hvor" data-typewriter="Hvor er vi i praksis?">Hvor er vi i praksis?</h2>
+            <h3 class="home-section-subtitle">Kristiansand kommune · Avdeling Plan og bygg</h3>
+            <p class="home-body-text">
+              Vi har vår praksisperiode hos <strong>Kristiansand kommune</strong>, tilknyttet avdelingen <strong>Plan og bygg</strong>. Avdelingen har et bredt samfunnsansvar og forvalter byens arealplanlegging, byggesaksbehandling, geodata, oppmåling, samt matrikkel og eiendomskart.
+            </p>
+            <p class="home-body-text">
+              Gjennom hverdagen samarbeider vi tett med veiledere og fagpersoner innen geodata og planforvaltning, hvor vi kombinerer akademisk informatikk-kompetanse med reelle kommunale utfordringer.
+            </p>
+            <div class="home-links-group">
+              <a class="home-external-link" href="https://www.kristiansand.kommune.no" target="_blank" rel="noopener noreferrer">
+                <span>Kristiansand kommune</span>
+                <span class="link-arrow" aria-hidden="true">↗</span>
+              </a>
+              <a class="home-external-link" href="https://www.kristiansand.kommune.no/navigasjon/bolig-kart-og-eiendom/plan-og-bygg/" target="_blank" rel="noopener noreferrer">
+                <span>Plan og bygg (avdelingsside)</span>
+                <span class="link-arrow" aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+          <div class="home-card-col">
+            <div class="location-card">
+              <div class="location-badge">Plan og bygg</div>
+              <h4 class="location-heading">Kommunehuset i Kristiansand</h4>
+              <ul class="location-details">
+                <li><strong>Vert:</strong> Kristiansand kommune</li>
+                <li><strong>Avdeling:</strong> Plan og bygg (Geodata / Arealplan)</li>
+                <li><strong>Veiledning:</strong> Dagfinn & kommunens faglige rådgivere</li>
+                <li><strong>Utdanning:</strong> Universitetet i Agder (UiA) · IS-302</li>
+              </ul>
+              <div class="location-partners">
+                <img src="img/logos/kristiansand-kommune-logo.png" alt="Kristiansand kommune" class="partner-card-logo">
+                <img src="img/logos/uia-logo.png" alt="UiA logo" class="partner-card-logo">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEKSJON: HVA DRIVER VI MED? -->
+      <section class="home-section" id="hva-vi-gjor" aria-labelledby="heading-hva" data-reveal>
+        <div class="section-label-row">
+          <span class="section-numeral">02</span>
+          <span class="project-tag">Faglige Initiativer</span>
+        </div>
+        <div class="section-header-block">
+          <h2 class="home-section-title" id="heading-hva" data-typewriter="Hva driver vi med hos Kristiansand kommune?">Hva driver vi med hos Kristiansand kommune?</h2>
+          <p class="section-lead">
+            Vårt arbeid er konsentrert rundt to sentrale digitaliseringsløp som utforsker hvordan moderne teknologi kan løse konkrete utfordringer i kommunens plan- og eiendomsforvaltning.
+          </p>
+        </div>
+
+        <div class="home-initiatives-grid">
+          <!-- Prosjekt 1 -->
+          <article class="home-initiative-card" data-reveal>
+            <div class="initiative-top">
+              <span class="project-tag">Prosjekt 01 · Geodata</span>
+              <span class="initiative-badge">Oppmåling & Arkiv</span>
+            </div>
+            <h3 class="initiative-title">Digitalisering av oppmålingsprotokoller</h3>
+            <p class="initiative-text">
+              Kommunen rår over omfattende historiske arkiver med håndskrevne oppmålingsprotokoller og målebrev. Vi tester ut hvordan kunstig intelligens og moderne OCR kan transkribere disse dokumentene, strukturere innholdet og knytte det direkte til rett gårds- og bruksnummer i matrikkelen.
+            </p>
+            <div class="initiative-tags">
+              <span class="meta-pill">AI-assistert OCR</span>
+              <span class="meta-pill">Matrikkel & Gnr/Bnr</span>
+              <span class="meta-pill">Historiske målebrev</span>
+            </div>
+            <button class="initiative-link-btn" type="button" data-view="hva-vi-gjor">
+              Les mer om oppmålingsprotokoller &rarr;
+            </button>
+          </article>
+
+          <!-- Prosjekt 2 -->
+          <article class="home-initiative-card" data-reveal>
+            <div class="initiative-top">
+              <span class="project-tag">Prosjekt 02 · Arealplan</span>
+              <span class="initiative-badge">Fremtidsrettet Plan</span>
+            </div>
+            <h3 class="initiative-title">Drømmeplan</h3>
+            <p class="initiative-text">
+              Dagens reguleringsplaner består ofte av statiske kart og ustrukturerte PDF-bestemmelser. I Drømmeplan undersøker vi hvordan planbestemmelser kan gjøres semantisk maskinlesbare etter moderne standarder (SOSI og NPAD), slik at saksbehandlere og innbyggere får et entydig digitalt datagrunnlag.
+            </p>
+            <div class="initiative-tags">
+              <span class="meta-pill">Maskinlesbare bestemmelser</span>
+              <span class="meta-pill">SOSI / NPAD-standard</span>
+              <span class="meta-pill">Datamodellering</span>
+            </div>
+            <button class="initiative-link-btn" type="button" data-view="hva-vi-gjor">
+              Les mer om Drømmeplan &rarr;
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- SEKSJON: HVORFOR DRIVER VI MED DETTE? -->
+      <section class="home-section" id="hvorfor-vi-gjor-det" aria-labelledby="heading-hvorfor" data-reveal>
+        <div class="section-label-row">
+          <span class="section-numeral">03</span>
+          <span class="project-tag">Mål & Samfunnsnytte</span>
+        </div>
+        <div class="section-header-block">
+          <h2 class="home-section-title" id="heading-hvorfor" data-typewriter="Hvorfor gjør vi det?">Hvorfor gjør vi det?</h2>
+          <p class="section-lead">
+            Målet vårt er ikke bare teoretisk utforskning, men å legge grunnlaget for målbare forbedringer for både kommunens saksbehandlere, innbyggere og næringsliv.
+          </p>
+        </div>
+
+        <div class="home-reasons-grid">
+          <div class="reason-card" data-reveal>
+            <div class="reason-icon-circle" aria-hidden="true">⚡</div>
+            <h3 class="reason-title">Raskere og mer automatisert saksbehandling</h3>
+            <p class="reason-text">
+              Ved å gjøre reguleringsbestemmelser maskinlesbare kan fremtidige byggesøknader sjekkes automatisk mot gjeldende regler, noe som drastisk kutter ventetid for innbyggere og utbyggere.
+            </p>
+          </div>
+
+          <div class="reason-card" data-reveal>
+            <div class="reason-icon-circle" aria-hidden="true">📜</div>
+            <h3 class="reason-title">Bevaring og søkbarhet av eiendomshistorikk</h3>
+            <p class="reason-text">
+              Eldre håndskrevne målebrev og oppmålingsprotokoller er sårbare og vanskelige å finne frem i. Digitalisering og AI-indeksering sikrer kulturarven og gjør den tilgjengelig med et tastetrykk.
+            </p>
+          </div>
+
+          <div class="reason-card" data-reveal>
+            <div class="reason-icon-circle" aria-hidden="true">🔗</div>
+            <h3 class="reason-title">Felles standarder og sømløs samhandling</h3>
+            <p class="reason-text">
+              Å koble plandata opp mot nasjonale standarder (SOSI/NPAD) og matrikkelen fjerner misforståelser mellom arkitekter, geodata-ingeniører og kommunale saksbehandlere.
+            </p>
+          </div>
+
+          <div class="reason-card" data-reveal>
+            <div class="reason-icon-circle" aria-hidden="true">🎓</div>
+            <h3 class="reason-title">Teknologisk fornyelse i offentlig sektor</h3>
+            <p class="reason-text">
+              Praksisprosjektet viser hvordan akademia og kommunen sammen kan teste ut state-of-the-art kunstig intelligens og moderne skyløsninger i trygge rammer.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEKSJON: TEAMET TEASER -->
+      <section class="home-section" id="team-teaser" aria-labelledby="heading-team-teaser" data-reveal>
+        <div class="section-label-row">
+          <span class="section-numeral">04</span>
+          <span class="project-tag">Studentene</span>
+        </div>
+        <div class="section-heading-with-cta">
+          <div>
+            <h2 class="home-section-title" id="heading-team-teaser" data-typewriter="Møt studentteamet">Møt studentteamet</h2>
+            <p class="home-body-text">
+              Fire IT-studenter fra Universitetet i Agder med engasjement for arkitektur, geodata, design og kunstig intelligens.
+            </p>
+          </div>
+          <button class="btn-view-all-team" type="button" data-view="team">
+            <span>Se hele team-siden</span>
+            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
+
+        <div class="team-teaser-grid">
+          <article class="team-teaser-card" data-view="team" role="button" tabindex="0">
+            <img class="team-teaser-photo team-photo-kasper" src="img/team/kasper.png" alt="Portrett av Kasper" loading="lazy">
+            <div class="team-teaser-info">
+              <h3 class="teaser-name">Kasper</h3>
+              <span class="teaser-role">Frontend & UX-design</span>
+              <span class="teaser-project">Drømmeplan</span>
+            </div>
+          </article>
+
+          <article class="team-teaser-card" data-view="team" role="button" tabindex="0">
+            <img class="team-teaser-photo team-photo-hk" src="img/team/hans-kristian.jpg" alt="Portrett av Hans Kristian" loading="lazy">
+            <div class="team-teaser-info">
+              <h3 class="teaser-name">Hans Kristian</h3>
+              <span class="teaser-role">Geodata & Matrikkel</span>
+              <span class="teaser-project">Oppmåling</span>
+            </div>
+          </article>
+
+          <article class="team-teaser-card" data-view="team" role="button" tabindex="0">
+            <img class="team-teaser-photo team-photo-kristian" src="img/team/kristian.png" alt="Portrett av Kristian" loading="lazy">
+            <div class="team-teaser-info">
+              <h3 class="teaser-name">Kristian</h3>
+              <span class="teaser-role">System & Backend</span>
+              <span class="teaser-project">Drømmeplan</span>
+            </div>
+          </article>
+
+          <article class="team-teaser-card" data-view="team" role="button" tabindex="0">
+            <img class="team-teaser-photo team-photo-mats" src="img/team/mats.jpg" alt="Portrett av Mats" loading="lazy">
+            <div class="team-teaser-info">
+              <h3 class="teaser-name">Mats</h3>
+              <span class="teaser-role">AI & Dataprosessering</span>
+              <span class="teaser-project">Oppmåling</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+    </section>
 
     <!-- Project overview -->
     <section class="view-panel" id="view-hva-vi-gjor" aria-labelledby="heading-hva-vi-gjor">
@@ -155,45 +406,141 @@
 
         <div class="team-grid">
 
-          <div class="team-card">
-            <div class="profile-placeholder" aria-hidden="true">KS</div>
-            <h3 class="profile-name">Kristian</h3>
-            <span class="profile-role">System & Backend</span>
-            <p class="profile-desc">Drømmeplan, databaser, Supabase og systemarkitektur.</p>
-            <button class="profile-filter-btn" type="button" data-jump-student="Kristian">
-              Se innlegg
-            </button>
-          </div>
+          <!-- KASPER -->
+          <article class="team-card">
+            <div class="team-photo-wrap">
+              <img class="team-photo team-photo-kasper" src="img/team/kasper.png" alt="Portrett av Kasper" loading="lazy">
+              <span class="team-card-tag">Drømmeplan</span>
+            </div>
+            <div class="team-card-content">
+              <div class="profile-header">
+                <h3 class="profile-name">Kasper</h3>
+                <span class="profile-role">Frontend & UX-design</span>
+              </div>
+              <p class="profile-desc">Leder arbeidet med brukergrensesnitt og frontend for Drømmeplan med fokus på universell utforming.</p>
+              <div class="profile-skills">
+                <span class="skill-pill">UI/UX-design</span>
+                <span class="skill-pill">Frontend</span>
+                <span class="skill-pill">WCAG</span>
+              </div>
+              <div class="profile-footer">
+                <button class="profile-filter-btn" type="button" data-jump-student="Kasper">
+                  <span>Se innlegg</span>
+                  <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+                </button>
+                <div class="social-links" aria-label="Lenker for Kasper">
+                  <a class="social-btn" href="https://github.com/kJ4SPer" target="_blank" rel="noopener noreferrer" aria-label="Kasper på GitHub" title="GitHub">
+                    <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                  </a>
+                  <a class="social-btn" href="https://www.linkedin.com/in/kj4sper/" target="_blank" rel="noopener noreferrer" aria-label="Kasper på LinkedIn" title="LinkedIn">
+                    <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66Z"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
 
-          <div class="team-card">
-            <div class="profile-placeholder" aria-hidden="true">HK</div>
-            <h3 class="profile-name">Hans Kristian</h3>
-            <span class="profile-role">Geodata & Matrikkel</span>
-            <p class="profile-desc">Oppmålingsprotokoller, matrikkeldata og SOSI-standarder.</p>
-            <button class="profile-filter-btn" type="button" data-jump-student="Hans Kristian">
-              Se innlegg
-            </button>
-          </div>
+          <!-- HANS KRISTIAN -->
+          <article class="team-card">
+            <div class="team-photo-wrap">
+              <img class="team-photo team-photo-hk" src="img/team/hans-kristian.jpg" alt="Portrett av Hans Kristian" loading="lazy">
+              <span class="team-card-tag">Geodata</span>
+            </div>
+            <div class="team-card-content">
+              <div class="profile-header">
+                <h3 class="profile-name">Hans Kristian</h3>
+                <span class="profile-role">Geodata & Matrikkel</span>
+              </div>
+              <p class="profile-desc">Oppmålingsprotokoller, matrikkeldata og SOSI-standarder koblet mot gjeldende Gnr/Bnr.</p>
+              <div class="profile-skills">
+                <span class="skill-pill">Geodata</span>
+                <span class="skill-pill">Matrikkel</span>
+                <span class="skill-pill">SOSI / NPAD</span>
+              </div>
+              <div class="profile-footer">
+                <button class="profile-filter-btn" type="button" data-jump-student="Hans Kristian">
+                  <span>Se innlegg</span>
+                  <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+                </button>
+                <div class="social-links" aria-label="Lenker for Hans Kristian">
+                  <a class="social-btn" href="https://github.com/HKwastaken" target="_blank" rel="noopener noreferrer" aria-label="Hans Kristian på GitHub" title="GitHub">
+                    <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                  </a>
+                  <a class="social-btn" href="https://www.linkedin.com/in/hans-kristian-steffenstorpet-619610403/" target="_blank" rel="noopener noreferrer" aria-label="Hans Kristian på LinkedIn" title="LinkedIn">
+                    <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66Z"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
 
-          <div class="team-card">
-            <div class="profile-placeholder" aria-hidden="true">KP</div>
-            <h3 class="profile-name">Kasper</h3>
-            <span class="profile-role">Frontend & Design</span>
-            <p class="profile-desc">Drømmeplan, brukergrensesnitt og universell utforming.</p>
-            <button class="profile-filter-btn" type="button" data-jump-student="Kasper">
-              Se innlegg
-            </button>
-          </div>
+          <!-- KRISTIAN -->
+          <article class="team-card">
+            <div class="team-photo-wrap">
+              <img class="team-photo team-photo-kristian" src="img/team/kristian.png" alt="Portrett av Kristian" loading="lazy">
+              <span class="team-card-tag">Drømmeplan</span>
+            </div>
+            <div class="team-card-content">
+              <div class="profile-header">
+                <h3 class="profile-name">Kristian</h3>
+                <span class="profile-role">System & Backend</span>
+              </div>
+              <p class="profile-desc">Drømmeplan, datamodellering, Supabase, databaseoppsett og systemarkitektur.</p>
+              <div class="profile-skills">
+                <span class="skill-pill">Systemarkitektur</span>
+                <span class="skill-pill">Supabase</span>
+                <span class="skill-pill">Datamodeller</span>
+              </div>
+              <div class="profile-footer">
+                <button class="profile-filter-btn" type="button" data-jump-student="Kristian">
+                  <span>Se innlegg</span>
+                  <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+                </button>
+                <div class="social-links" aria-label="Lenker for Kristian">
+                  <a class="social-btn" href="https://github.com/kristianS7" target="_blank" rel="noopener noreferrer" aria-label="Kristian på GitHub" title="GitHub">
+                    <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                  </a>
+                  <a class="social-btn" href="https://www.linkedin.com/in/kristian-stenersen/" target="_blank" rel="noopener noreferrer" aria-label="Kristian på LinkedIn" title="LinkedIn">
+                    <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66Z"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
 
-          <div class="team-card">
-            <div class="profile-placeholder" aria-hidden="true">MB</div>
-            <h3 class="profile-name">Mats</h3>
-            <span class="profile-role">AI & Dataprosessering</span>
-            <p class="profile-desc">Oppmålingsprotokoller, LLM-prompting og datavasking.</p>
-            <button class="profile-filter-btn" type="button" data-jump-student="Mats">
-              Se innlegg
-            </button>
-          </div>
+          <!-- MATS -->
+          <article class="team-card">
+            <div class="team-photo-wrap">
+              <img class="team-photo team-photo-mats" src="img/team/mats.jpg" alt="Portrett av Mats" loading="lazy">
+              <span class="team-card-tag">Geodata</span>
+            </div>
+            <div class="team-card-content">
+              <div class="profile-header">
+                <h3 class="profile-name">Mats</h3>
+                <span class="profile-role">AI & Dataprosessering</span>
+              </div>
+              <p class="profile-desc">Oppmålingsprotokoller, prompting av LLM-modeller, tabellstrukturering og datavasking.</p>
+              <div class="profile-skills">
+                <span class="skill-pill">Kunstig intelligens</span>
+                <span class="skill-pill">LLM & OCR</span>
+                <span class="skill-pill">Datavasking</span>
+              </div>
+              <div class="profile-footer">
+                <button class="profile-filter-btn" type="button" data-jump-student="Mats">
+                  <span>Se innlegg</span>
+                  <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+                </button>
+                <div class="social-links" aria-label="Lenker for Mats">
+                  <a class="social-btn" href="https://github.com/FalckM" target="_blank" rel="noopener noreferrer" aria-label="Mats på GitHub" title="GitHub">
+                    <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                  </a>
+                  <a class="social-btn" href="https://www.linkedin.com/in/mats-lie-137b14205/" target="_blank" rel="noopener noreferrer" aria-label="Mats på LinkedIn" title="LinkedIn">
+                    <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66Z"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
 
         </div>
       </div>
@@ -201,54 +548,42 @@
     </section>
 
 
-    <!-- Shared journal: the default view -->
-    <section class="view-panel active" id="view-loggbok" aria-labelledby="heading-loggbok">
+    <!-- ====================================================================
+         VIEW 01: PROSJEKTDAGBOK (FELLES TEAM-LOGG)
+         ==================================================================== -->
+    <section class="view-panel" id="view-loggbok" aria-labelledby="heading-loggbok">
 
       <div class="feed-header">
         <div class="feed-title-block">
-          <span class="intro-badge">IS-302 · Praksis 2026</span>
-          <h1 class="feed-main-title" id="heading-loggbok" lang="en">Internship loggbok</h1>
-          <p class="feed-subtitle"> Her deler vi arbeidet, erfaringene og refleksjonene underveis.</p>
+          <span class="intro-badge" data-reveal>IS-302 · Praksis 2026</span>
+          <h1 class="feed-main-title" id="heading-loggbok" data-typewriter="Prosjektdagbok">Prosjektdagbok</h1>
+          <p class="feed-subtitle" data-reveal>Her deler studentteamet arbeidet, fremdriften og refleksjonene underveis i praksisperioden hos Kristiansand kommune.</p>
         </div>
-        <div class="intro-meta"><span></span><span></span></div>
+        <div class="intro-meta">
+          <span>IS-302 Teamet</span>
+          <span>Felles publisering</span>
+        </div>
       </div>
 
       <div class="journal-layout">
       <section class="journal-feed" aria-labelledby="journal-heading">
-      <div class="section-heading"><h2 id="journal-heading">Fra praksisen</h2><span>Nyeste innlegg først</span></div>
-
-      <!-- Editing status -->
-      <div class="edit-status-strip" id="edit-status-strip">
-        <span class="mode-badge" id="mode-badge">Lesemodus</span>
-        <span id="mode-text">Logg inn for å redigere datoer direkte på kortene.</span>
-        <button class="mode-toggle-link" id="toggle-edit-mode" type="button">
-          Aktiver redigering (test)
-        </button>
+      <div class="section-heading">
+        <h2 id="journal-heading">Innlegg fra praksisen</h2>
+        <span>Nyeste innlegg først</span>
       </div>
 
-      <!-- FILTERS & SEARCH -->
+      <!-- SEARCH & FEED TOOLBAR -->
       <div class="feed-toolbar">
-        <nav class="filter-group" aria-label="Filtrer etter student">
-          <button class="filter-btn active" type="button" data-student="all" aria-pressed="true" aria-controls="entries-list">
-            Alle <span class="count" id="cnt-all">0</span>
-          </button>
-          <button class="filter-btn" type="button" data-student="Kristian" aria-pressed="false" aria-controls="entries-list">
-            Kristian <span class="count" id="cnt-Kristian">0</span>
-          </button>
-          <button class="filter-btn" type="button" data-student="Hans Kristian" aria-pressed="false" aria-controls="entries-list">
-            Hans Kristian <span class="count" id="cnt-Hans-Kristian">0</span>
-          </button>
-          <button class="filter-btn" type="button" data-student="Kasper" aria-pressed="false" aria-controls="entries-list">
-            Kasper <span class="count" id="cnt-Kasper">0</span>
-          </button>
-          <button class="filter-btn" type="button" data-student="Mats" aria-pressed="false" aria-controls="entries-list">
-            Mats <span class="count" id="cnt-Mats">0</span>
-          </button>
-        </nav>
-
+        <div class="feed-meta-bar">
+          <span class="feed-team-indicator">
+            <span class="indicator-dot" aria-hidden="true"></span>
+            Felles team-innlegg
+          </span>
+          <span class="feed-count-tag" id="cnt-all-wrap"><span class="count" id="cnt-all">0</span> innlegg totalt</span>
+        </div>
         <div class="search-row">
           <label for="feed-search">Søk</label>
-          <input class="search-field" id="feed-search" type="search" placeholder="Søk etter tekst, student eller dato…">
+          <input class="search-field" id="feed-search" type="search" placeholder="Søk etter nøkkelord, tema eller dato i innleggene…">
         </div>
       </div>
 
@@ -293,41 +628,201 @@
         <span class="intro-badge">IS-302 · Studentene</span>
         <h1 class="section-title" id="heading-team-view">Om teamet</h1>
         <p class="section-lead">
-          Vi er fire IT-studenter som samarbeider med veileder Dagfinn og Kristiansand kommune gjennom hele semesteret.
+          Vi er fire IT-studenter fra Universitetet i Agder (UiA) som samarbeider med veileder Dagfinn og Kristiansand kommune gjennom hele semesteret. Sammen utforsker vi hvordan moderne teknologi, maskinlæring og standardiserte datamodeller kan skape smartere og mer tilgjengelige kommunale tjenester.
         </p>
       </div>
 
+      <div class="team-meta-strip">
+        <div class="meta-strip-item">
+          <span class="meta-strip-label">Utdanning</span>
+          <span class="meta-strip-value">IT & Informasjonssystemer · UiA</span>
+        </div>
+        <div class="meta-strip-item">
+          <span class="meta-strip-label">Oppdragsgiver</span>
+          <span class="meta-strip-value">Kristiansand kommune</span>
+        </div>
+        <div class="meta-strip-item">
+          <span class="meta-strip-label">Veiledning</span>
+          <span class="meta-strip-value">Dagfinn & faglige rådgivere</span>
+        </div>
+        <div class="meta-strip-item">
+          <span class="meta-strip-label">Fokusområder</span>
+          <span class="meta-strip-value">Geodata, AI & Maskinlesbare planer</span>
+        </div>
+      </div>
+
       <div class="team-grid">
-        <div class="team-card">
-          <div class="profile-placeholder" aria-hidden="true">KS</div>
-          <h2 class="profile-name">Kristian</h2>
-          <span class="profile-role">System & Backend</span>
-          <p class="profile-desc">Fokusert på Drømmeplan, arkitektur, skytjenester og databaseoppsett.</p>
-          <button class="profile-filter-btn" type="button" data-jump-student="Kristian">Se logger</button>
-        </div>
 
-        <div class="team-card">
-          <div class="profile-placeholder" aria-hidden="true">HK</div>
-          <h2 class="profile-name">Hans Kristian</h2>
-          <span class="profile-role">Geodata & Matrikkel</span>
-          <p class="profile-desc">Fokusert på oppmålingsprotokoller, eiendomshistorikk og SOSI-standarder.</p>
-          <button class="profile-filter-btn" type="button" data-jump-student="Hans Kristian">Se logger</button>
-        </div>
+        <!-- KASPER -->
+        <article class="team-card">
+          <div class="team-photo-wrap">
+            <img class="team-photo team-photo-kasper" src="img/team/kasper.png" alt="Portrett av Kasper" loading="lazy">
+            <span class="team-card-tag">Drømmeplan</span>
+          </div>
+          <div class="team-card-content">
+            <div class="profile-header">
+              <h2 class="profile-name">Kasper</h2>
+              <span class="profile-role">Frontend & UX-design</span>
+            </div>
+            <p class="profile-desc">
+              Leder arbeidet med brukergrensesnitt og frontend-arkitektur for Drømmeplan. Fokusert på universell utforming (WCAG), intuitive brukerreiser og visuell formidling av komplekse arealplanbestemmelser, slik at dataene blir enkle å navigere for alle.
+            </p>
+            <div class="profile-skills">
+              <span class="skill-pill">UI/UX-design</span>
+              <span class="skill-pill">Frontend</span>
+              <span class="skill-pill">Universell utforming</span>
+              <span class="skill-pill">Drømmeplan</span>
+              <span class="skill-pill">Brukertesting</span>
+            </div>
+            <div class="profile-footer">
+              <button class="profile-filter-btn" type="button" data-jump-student="Kasper">
+                <span>Se logger</span>
+                <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+              </button>
+              <div class="social-links" aria-label="Sosiale profiler for Kasper">
+                <a class="social-btn" href="https://github.com/kJ4SPer" target="_blank" rel="noopener noreferrer" aria-label="Kasper på GitHub" title="GitHub: kJ4SPer">
+                  <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a class="social-btn" href="https://www.linkedin.com/in/kj4sper/" target="_blank" rel="noopener noreferrer" aria-label="Kasper på LinkedIn" title="LinkedIn: kj4sper">
+                  <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66Z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
 
-        <div class="team-card">
-          <div class="profile-placeholder" aria-hidden="true">KP</div>
-          <h2 class="profile-name">Kasper</h2>
-          <span class="profile-role">Frontend & Design</span>
-          <p class="profile-desc">Fokusert på Drømmeplan, nettside-design, brukerreiser og frontend.</p>
-          <button class="profile-filter-btn" type="button" data-jump-student="Kasper">Se logger</button>
-        </div>
+        <!-- HANS KRISTIAN -->
+        <article class="team-card">
+          <div class="team-photo-wrap">
+            <img class="team-photo team-photo-hk" src="img/team/hans-kristian.jpg" alt="Portrett av Hans Kristian" loading="lazy">
+            <span class="team-card-tag">Geodata</span>
+          </div>
+          <div class="team-card-content">
+            <div class="profile-header">
+              <h2 class="profile-name">Hans Kristian</h2>
+              <span class="profile-role">Geodata & Matrikkel</span>
+            </div>
+            <p class="profile-desc">
+              Spesialiserer seg på geografiske data, matrikkelkoblinger og SOSI-standarder i oppmålingsprosjektet. Kartlegger hvordan historiske målebrev og oppmålingsprotokoller kan indekseres mot gjeldende gårds- og bruksnummer.
+            </p>
+            <div class="profile-skills">
+              <span class="skill-pill">Geodata & GIS</span>
+              <span class="skill-pill">Matrikkel</span>
+              <span class="skill-pill">SOSI / NPAD</span>
+              <span class="skill-pill">Gnr/Bnr</span>
+              <span class="skill-pill">Arkivanalyse</span>
+            </div>
+            <div class="profile-footer">
+              <button class="profile-filter-btn" type="button" data-jump-student="Hans Kristian">
+                <span>Se logger</span>
+                <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+              </button>
+              <div class="social-links" aria-label="Sosiale profiler for Hans Kristian">
+                <a class="social-btn" href="https://github.com/HKwastaken" target="_blank" rel="noopener noreferrer" aria-label="Hans Kristian på GitHub" title="GitHub: HKwastaken">
+                  <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a class="social-btn" href="https://www.linkedin.com/in/hans-kristian-steffenstorpet-619610403/" target="_blank" rel="noopener noreferrer" aria-label="Hans Kristian på LinkedIn" title="LinkedIn: Hans Kristian Steffenstorpet">
+                  <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66Z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
 
-        <div class="team-card">
-          <div class="profile-placeholder" aria-hidden="true">MB</div>
-          <h2 class="profile-name">Mats</h2>
-          <span class="profile-role">AI & Dataprosessering</span>
-          <p class="profile-desc">Fokusert på oppmålingsprotokoller, prompting av LLM-modeller og tabellstrukturering.</p>
-          <button class="profile-filter-btn" type="button" data-jump-student="Mats">Se logger</button>
+        <!-- KRISTIAN -->
+        <article class="team-card">
+          <div class="team-photo-wrap">
+            <img class="team-photo team-photo-kristian" src="img/team/kristian.png" alt="Portrett av Kristian" loading="lazy">
+            <span class="team-card-tag">Drømmeplan</span>
+          </div>
+          <div class="team-card-content">
+            <div class="profile-header">
+              <h2 class="profile-name">Kristian</h2>
+              <span class="profile-role">Systemarkitektur & Backend</span>
+            </div>
+            <p class="profile-desc">
+              Ansvarlig for teknisk arkitektur, skytjenester og databaseløsninger for Drømmeplan og praksisloggen. Utforsker metoder for å konvertere arealplanbestemmelser til semantiske, maskinlesbare strukturer.
+            </p>
+            <div class="profile-skills">
+              <span class="skill-pill">Systemarkitektur</span>
+              <span class="skill-pill">Supabase & SQL</span>
+              <span class="skill-pill">Datamodellering</span>
+              <span class="skill-pill">Skytjenester</span>
+              <span class="skill-pill">Automasjon</span>
+            </div>
+            <div class="profile-footer">
+              <button class="profile-filter-btn" type="button" data-jump-student="Kristian">
+                <span>Se logger</span>
+                <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+              </button>
+              <div class="social-links" aria-label="Sosiale profiler for Kristian">
+                <a class="social-btn" href="https://github.com/kristianS7" target="_blank" rel="noopener noreferrer" aria-label="Kristian på GitHub" title="GitHub: kristianS7">
+                  <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a class="social-btn" href="https://www.linkedin.com/in/kristian-stenersen/" target="_blank" rel="noopener noreferrer" aria-label="Kristian på LinkedIn" title="LinkedIn: Kristian Stenersen">
+                  <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66Z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- MATS -->
+        <article class="team-card">
+          <div class="team-photo-wrap">
+            <img class="team-photo team-photo-mats" src="img/team/mats.jpg" alt="Portrett av Mats" loading="lazy">
+            <span class="team-card-tag">Geodata</span>
+          </div>
+          <div class="team-card-content">
+            <div class="profile-header">
+              <h2 class="profile-name">Mats</h2>
+              <span class="profile-role">AI & Dataprosessering</span>
+            </div>
+            <p class="profile-desc">
+              Fokuserer på AI-assistert transkribering av håndskrevne og eldre oppmålingsprotokoller. Jobber med LLM-prompting, OCR-teknikker, datavasking og strukturering av ustrukturerte arkivdata til standardiserte tabeller.
+            </p>
+            <div class="profile-skills">
+              <span class="skill-pill">Kunstig intelligens</span>
+              <span class="skill-pill">LLM & OCR</span>
+              <span class="skill-pill">Datavasking</span>
+              <span class="skill-pill">Excel & SQL</span>
+              <span class="skill-pill">Dataflyt</span>
+            </div>
+            <div class="profile-footer">
+              <button class="profile-filter-btn" type="button" data-jump-student="Mats">
+                <span>Se logger</span>
+                <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+              </button>
+              <div class="social-links" aria-label="Sosiale profiler for Mats">
+                <a class="social-btn" href="https://github.com/FalckM" target="_blank" rel="noopener noreferrer" aria-label="Mats på GitHub" title="GitHub: FalckM">
+                  <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a class="social-btn" href="https://www.linkedin.com/in/mats-lie-137b14205/" target="_blank" rel="noopener noreferrer" aria-label="Mats på LinkedIn" title="LinkedIn: mats-lie-137b14205">
+                  <svg class="social-icon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25a1.66 1.66 0 0 0-1.66 1.66c0 .92.74 1.66 1.66 1.66.92 0 1.66-.74 1.66-1.66 0-.92-.74-1.66-1.66-1.66Z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Collaboration note -->
+      <div class="team-collab-note">
+        <div class="collab-note-content">
+          <span class="project-tag">Praksissamarbeid</span>
+          <h3>Brobygger mellom akademia og kommunal forvaltning</h3>
+          <p>
+            Gjennom IS-302 kombinerer vi akademisk teori fra Universitetet i Agder med reelle faglige utfordringer hos Kristiansand kommune. Vårt mål er ikke bare å levere konseptuelle forslag, men å utvikle konkrete, testbare prototyper og verktøy som kan gi varig verdi for både saksbehandlere og innbyggere.
+          </p>
+        </div>
+        <div class="collab-note-links">
+          <a class="collab-link" href="https://www.uia.no" target="_blank" rel="noopener noreferrer">
+            Universitetet i Agder ↗
+          </a>
+          <a class="collab-link" href="https://www.kristiansand.kommune.no" target="_blank" rel="noopener noreferrer">
+            Kristiansand kommune ↗
+          </a>
         </div>
       </div>
     </section>
@@ -348,21 +843,19 @@
   <dialog class="entry-dialog" id="entry-dialog" aria-labelledby="dialog-heading">
     <div class="dialog-inner">
       <div class="dialog-header">
-        <div><span class="intro-badge">IS-302 · Loggbok</span><h2 class="dialog-title" id="dialog-heading">Nytt innlegg</h2></div>
+        <div><span class="intro-badge">IS-302 · Prosjektdagbok</span><h2 class="dialog-title" id="dialog-heading">Nytt innlegg</h2></div>
         <button class="close-btn" id="close-entry" type="button" aria-label="Lukk dialog">&times;</button>
       </div>
-      <p class="dialog-description">Dokumenter arbeidet, og del det du har lært underveis.</p>
+      <p class="dialog-description">Dokumenter teamets arbeid, fremgang og faglige refleksjoner underveis.</p>
       <form id="diary-form" novalidate>
         <div class="form-row">
           <div class="form-group">
-            <label for="student">Hvem logger?</label>
-            <select id="student" name="student" required>
-              <option value="">Velg student...</option>
-              <option value="Kristian">Kristian</option>
-              <option value="Hans Kristian">Hans Kristian</option>
-              <option value="Kasper">Kasper</option>
-              <option value="Mats">Mats</option>
-            </select>
+            <label>Forfatter</label>
+            <div class="author-static-badge">
+              <span class="author-badge-icon" aria-hidden="true">👥</span>
+              <span>Teamet (IS-302)</span>
+            </div>
+            <input type="hidden" id="student" name="student" value="Teamet">
           </div>
           <div class="form-group">
             <label for="entry-date">Dato</label>
@@ -370,9 +863,21 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="content">Hva har du gjort?</label>
-          <textarea id="content" name="content" rows="7" maxlength="10000" placeholder="Hva jobbet du med? Hva lærte du? Hva blir neste steg?" aria-describedby="content-hint form-message" required></textarea>
-          <p class="field-hint" id="content-hint">Oppgaver, fremgang og refleksjoner. Maks 10 000 tegn.</p>
+          <label for="content">Hva har dere gjort?</label>
+          <textarea id="content" name="content" rows="7" maxlength="10000" placeholder="Hva har teamet jobbet med? Hvilke milepæler er nådd, og hva er veien videre?" aria-describedby="content-hint form-message" required></textarea>
+          <p class="field-hint" id="content-hint">Fremgang, oppgaver og felles refleksjoner. Maks 10 000 tegn.</p>
+        </div>
+        <div class="form-group">
+          <label for="entry-attachments-input">Vedlegg (valgfritt)</label>
+          <div class="attachment-upload-zone" id="attachment-drop-zone">
+            <input type="file" id="entry-attachments-input" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt" class="sr-only">
+            <label for="entry-attachments-input" class="attachment-upload-label">
+              <span class="upload-icon" aria-hidden="true">📎</span>
+              <span class="upload-text"><strong>Klikk for å legge til filer</strong> eller dra og slipp her</span>
+              <span class="upload-hint">Støtter bilder (PNG, JPG), PDF og dokumenter</span>
+            </label>
+            <div class="attachment-preview-list" id="attachment-preview-list" aria-live="polite"></div>
+          </div>
         </div>
         <p class="form-msg" id="form-message" role="status" aria-live="polite"></p>
         <div class="dialog-actions">
@@ -393,7 +898,7 @@
         <button class="close-btn" id="close-login" type="button" aria-label="Lukk dialog">&times;</button>
       </div>
 
-      <p class="dialog-description">Logg inn for å publisere i gruppens felles praksislogg.</p>
+      <p class="dialog-description">Logg inn for å publisere i gruppens felles prosjektdagbok.</p>
 
       <form id="login-form" novalidate>
         <div class="form-group">
@@ -410,11 +915,6 @@
           <button class="btn-submit" id="login-submit" type="submit">Logg inn</button>
         </div>
       </form>
-      <details class="demo-login-box">
-        <summary>Sensur og testing</summary>
-        <p>Prøv datoredigering lokalt uten å logge inn.</p>
-        <button class="demo-login-btn" id="demo-login-btn" type="button">Aktiver testmodus</button>
-      </details>
     </div>
   </dialog>
 
