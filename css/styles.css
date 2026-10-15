@@ -1363,6 +1363,15 @@ input::placeholder, textarea::placeholder { color: var(--color-muted); opacity: 
   margin-bottom: 2rem;
 }
 
+.status-video {
+  display: block;
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  margin-bottom: 2rem;
+  border-radius: var(--radius);
+}
+
 .status-report h2 {
   margin: 2rem 0 0.75rem;
   font-size: 1.2rem;

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="description"
+    content="Status 2 fra praksis i Kristiansand kommune – IS-302 ved UiA."
+  >
+  <title>Status 2 | IS-302</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">
+    Hopp til hovedinnhold
+  </a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="identity">
+        <a class="brand" href="index.html" aria-label="IS-302 forsiden">
+          IS-302
+        </a>
+        <p class="students">
+          Kristian <span aria-hidden="true">·</span>
+          Hans Kristian <span aria-hidden="true">·</span>
+          Kasper <span aria-hidden="true">·</span>
+          Mats
+        </p>
+      </div>
+
+      <div class="header-actions">
+        <nav class="page-nav" aria-label="Hovedmeny">
+          <a href="index.html">Loggbok</a>
+          <a href="status1.html">Status 1</a>
+          <a href="status2.html" aria-current="page">Status 2</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <article class="status-report" aria-labelledby="status-heading">
+      <p class="status-label">
+        Praksisprosjekt ved UiA · Kristiansand kommune
+      </p>
+
+      <video class="status-video" controls playsinline preload="metadata">
+        <source src="images/dagfinn.mp4" type="video/mp4">
+        Nettleseren din støtter ikke video.
+      </video>
+
+      <h1 id="status-heading">Status 2</h1>
+
+      <p>
+        Siden Status 1 har vi kommet frem til en fungerende prototype for oppgaven vår knyttet til gotisk håndskrift. Vi startet med å bruke kunstig intelligens og OCR-teknologi til å indeksere tusenvis av matrikkelkort for å identifisere sidetallene som er knyttet til de tilhørende oppmålingsprotokollene.
+      </p>
+
+      <p>
+        Etter å ha behandlet flere tusen sider samlet vi informasjonen i én strukturert Excel-tabell med flere tusen rader.
+      </p>
+
+      <p>
+        Løsningen vår består av et script som søker gjennom Excel-arket, identifiserer riktig kolonne og rad, og finner den tilhørende protokollsiden. Deretter benyttes kunstig intelligens til å tolke og transkribere den gotiske håndskriften så nøyaktig som mulig.
+      </p>
+
+      <section aria-labelledby="dream-plan-heading">
+        <h2 id="dream-plan-heading">Drømmeplan</h2>
+        <p>
+          Vi har besluttet å ikke gå videre med Drømmeplan-prosjektet, ettersom tilsvarende løsninger allerede er blitt utviklet og overtatt av leverandører i privat sektor. Vi har derfor valgt å rette oppmerksomheten mot arbeidet med gotisk håndskrift.
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <span>IS-302 / Praksisprosjekt ved UiA</span>
+  </footer>
+</body>
+</html>
