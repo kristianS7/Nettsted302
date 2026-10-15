@@ -1380,6 +1380,7 @@ input::placeholder, textarea::placeholder { color: var(--color-muted); opacity: 
 .status-report p:not(.status-label) {
   margin: 0 0 1rem;
   line-height: 1.8;
+
 }
 
 .status-image {
@@ -1412,3 +1413,5 @@ input::placeholder, textarea::placeholder { color: var(--color-muted); opacity: 
     flex-wrap: wrap;
   }
 }
+
+
